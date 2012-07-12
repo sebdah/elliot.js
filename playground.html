@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>{{elliot}} PLAYGROUND</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type='text/javascript' src='elliot.js'></script>
+</head>
+<body>
+  <canvas id="mycanvas" width='1800' height='600'>Your browser does not support HTML 5, please upgrade</canvas>
+  <script type="text/javascript">
+  var config = {
+    'general': {
+      'background': '#320000',
+      'graphColors': [
+        '#ff0000',
+        '#ffea68',
+        '#ffffff',
+        '#ff0000',
+        '#ffea68',
+        '#ffffff',
+      ]
+    },
+  }
+  var elliot = new Elliot('mycanvas', config);
+  </script>
+</body>
+</html>

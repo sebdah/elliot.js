@@ -1,0 +1,247 @@
+<html>
+<head>
+  <title>{{elliot}} lab</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+<body>
+  <canvas id='mycanvas' width='1800' height='700'>Your browser version is old, please upgrade</canvas>
+  <script type="text/javascript">
+  /*
+  *   SETTINGS
+  */
+  // Canvas element id
+  canvas_element_id = 'mycanvas';
+
+  // Canvas size
+  canvas_height = 700;
+  canvas_width = 1800;
+
+  // Canvas background color
+  background_color = "#320000";
+
+  // How big steps should we take on the x-axis?
+  x_frequence = 50;
+
+  // Grid settings
+  grid_lines_spacing = 50;        // How much space should it be between the grid lines?
+  grid_lines_color = "#ffffff";
+  grid_line_width = 0.3;
+
+  // Line color
+  line_color = "#ffea68";
+  line_width = 4;
+
+  /*
+  *   CODE
+  */
+  function Elliot(canvas_id) {
+    // Initialize the canvas
+    this.canvas = document.getElementById(canvas_id);
+    this.ctx = this.canvas.getContext("2d");
+
+    // Add a 5% padding to the canvas
+    this.canvas_bottom = canvas_height - (canvas_height / 100) * 5;
+    this.canvas_top = 0 + (canvas_height / 100) * 5;
+    this.canvas_height = this.canvas_bottom - this.canvas_top;
+    
+    this.canvas_width = canvas_width;
+
+    this.last_x = 0;
+    this.last_y = this.canvas_height;
+
+    this.metrics = [{"x":0, "y":0}];
+    this.has_new_metric = true;
+    
+    // Fill background
+    this.fillBackground = function (height, width, background_color) {
+      this.ctx.fillStyle = background_color;
+      this.ctx.fillRect(0, 0, width, height);
+    }
+
+    // Create a horizontal grid
+    this.createHorizontalGrid = function (height, width, spacing) {
+      this.ctx.beginPath();
+      for (var next_x = spacing; next_x < width; next_x += spacing) {
+        this.ctx.moveTo(0, next_x);
+        this.ctx.lineTo(width, next_x);
+      };
+      this.ctx.lineWidth = grid_line_width;
+      this.ctx.strokeStyle = grid_lines_color;
+      this.ctx.stroke();
+    }
+
+    // Create a vertical grid
+    this.createVerticalGrid = function (height, width, spacing) {
+      this.ctx.beginPath();
+      for (var next_x = spacing; next_x < width; next_x += spacing) {
+        this.ctx.moveTo(next_x, 0);
+        this.ctx.lineTo(next_x, height);
+      };
+      this.ctx.lineWidth = grid_line_width;
+      this.ctx.strokeStyle = grid_lines_color;
+      this.ctx.stroke();
+    }
+
+    // Helper to create both vertical and horizontal grid immediately
+    this.createGrid = function (height, width, spacing) {
+      this.createHorizontalGrid(height, width, spacing);
+      this.createVerticalGrid(height, width, spacing);
+    }
+
+    this.drawLimitLines = function() {
+      // Draw top limit
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, this.canvas_top);
+      this.ctx.lineTo(this.canvas_width, this.canvas_top);
+      this.ctx.lineWidth = 1;
+      this.ctx.strokeStyle = grid_lines_color;
+      this.ctx.stroke();
+
+      // Draw bottom limit
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, this.canvas_bottom);
+      this.ctx.lineTo(this.canvas_width, this.canvas_bottom);
+      this.ctx.lineWidth = 1;
+      this.ctx.strokeStyle = grid_lines_color;
+      this.ctx.stroke();
+    }
+
+    this.getYCoordinate = function (metric) {
+      y_upper_limit = 100;
+      rel = this.canvas_height / y_upper_limit;
+      y = this.canvas_bottom - metric * rel;
+
+      return y;
+    }
+
+    this.addMetric = function (y, delay) {
+      new_x = this.last_x + x_frequence;
+      this.metrics[this.metrics.length] = {"x": new_x, "y": y};
+      this.has_new_metric = true;
+    }
+
+
+    this.drawFull = function () {
+      this.ctx.save();
+      this.ctx.clearRect(0, 0, canvas_width, canvas_height);
+      this.fillBackground(canvas_height, canvas_width, background_color);
+      this.createGrid(canvas_height, canvas_width, grid_lines_spacing);
+      this.drawLimitLines();
+      this.ctx.restore();
+
+      this.ctx.save();
+      // Start new path
+      this.ctx.beginPath();
+
+      // Move to start position
+      this.ctx.moveTo(this.last_x, this.canvas_height);
+
+      // Line settings
+      this.ctx.lineWidth = line_width;
+      this.ctx.strokeStyle = line_color;
+      this.ctx.lineCap = "round";
+      this.ctx.lineJoin = "round";
+
+      
+
+      var last_x = this.last_x;
+      var last_y = this.last_y;
+
+      for (var i = 0; i < this.metrics.length; i++) {
+        new_x = last_x + x_frequence;
+        new_y = this.getYCoordinate(this.metrics[i]['y']);
+        last_real_y = this.metrics[i]['y'];
+
+        //console.log("(" + last_x + ", " + last_y + ") -> (" + new_x + ", " + new_y + ")");
+
+        // Draw the line
+        //this.ctx.lineTo(new_x, new_y);
+        this.ctx.bezierCurveTo(
+          Math.round((last_x + new_x) / 2),
+          last_y,
+          Math.round((last_x + new_x)) / 2,
+          last_y,
+          new_x,
+          new_y
+        );
+
+        // Set last used coordinates
+        last_x = new_x;
+        last_y = new_y;
+      };
+      this.ctx.stroke();
+      this.ctx.closePath();
+      this.ctx.restore();
+
+      if (this.metrics.length > 10) {
+        for (var i = this.metrics.length; i > 10; i--) {
+          this.metrics.shift();
+        };
+      }
+
+      if (this.has_new_metric) {
+        this.has_new_metric = false;
+      } else {
+        this.addMetric(last_real_y);
+      }
+    }
+
+    this.start_metric_path = function () {
+      // Start new path
+      this.ctx.beginPath();
+
+      // Move to start position
+      this.ctx.moveTo(this.last_x, this.canvas_height);
+
+      // Line settings
+      this.ctx.lineWidth = line_width;
+      this.ctx.strokeStyle = line_color;
+      this.ctx.lineCap = "round";
+      this.ctx.lineJoin = "round";
+    }
+
+    this.writeMetric = function () {
+      if (this.metrics.length > 0) {
+        // Find new coordinates
+        new_x = this.metrics[0]['x'] + x_frequence;
+        new_y = this.getYCoordinate(this.metrics[0]['y']);
+
+        // Remove the first value from the array
+        this.metrics.shift();
+      } else {
+        new_x = this.last_x + x_frequence;
+        new_y = this.last_y;
+      }
+
+      // Draw the line
+      //this.ctx.lineTo(new_x, new_y);
+      this.ctx.bezierCurveTo(
+        Math.round((this.last_x + new_x) / 2),
+        this.last_y,
+        Math.round((this.last_x + new_x)) / 2,
+        this.last_y,
+        new_x,
+        new_y
+      );
+      this.ctx.stroke();
+
+      // Set last used coordinates
+      this.last_x = new_x;
+      this.last_y = new_y;
+    }
+  }
+
+  var elliot = new Elliot(canvas_element_id);
+  elliot.fillBackground(canvas_height, canvas_width, background_color);
+  elliot.createGrid(canvas_height, canvas_width, grid_lines_spacing);
+  elliot.drawLimitLines();
+  //elliot.start_metric_path();
+  window.setInterval(function(){
+    elliot.addMetric(Math.floor((Math.random()*100)+1), 1000);
+  }, 500);
+  window.setInterval(function () {
+    elliot.drawFull();
+  }, 5);
+  </script>
+</body>
+</html>
