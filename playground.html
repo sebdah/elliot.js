@@ -5,12 +5,12 @@
   <script type='text/javascript' src='prototype.js'></script>
   <script type='text/javascript' src='elliot.js'></script>
 </head>
-<body>
-  <canvas id="mycanvas" width='1800' height='600'>Your browser does not support HTML 5, please upgrade</canvas>
+<body bgcolor='#2F2C2B'>
+  <canvas id="mycanvas" width='600' height='200'>Your browser does not support HTML 5, please upgrade</canvas>
   <script type="text/javascript">
   var config = {
     'general': {
-      'background': '#320000',
+      'background': '#2F2C2B',
       'graphColors': [
         '#ff0000',
         '#ffea68',
@@ -20,11 +20,14 @@
         '#ffffff',
       ]
     },
+    'barGraph': {
+      'markerPosition': 20,
+    }
   }
 
-  var elliot = new ElliotBarGraph('mycanvas', config);
+  var elliot = new ElliotMovingBarGraph('mycanvas', config);
 
-  // Add data to the graph
+  /* Add data to the graph
   var dataInterval = setInterval(function () {
     barData = [
       {'title': 'Apple', 'value': Math.floor((Math.random()*500)+1)},
@@ -35,7 +38,7 @@
       {'title': 'Papaya', 'value': Math.floor((Math.random()*500)+1)}
       ];
     elliot.addBarGraphData(barData);
-  }, 1000);
+  }, 1000);*/
   </script>
 </body>
 </html>

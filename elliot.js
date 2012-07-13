@@ -33,12 +33,12 @@
            
             // The method only need to be bound temporarily, so we
             // remove it when we're done executing
-            var ret = fn.apply(this, arguments);       
+            var ret = fn.apply(this, arguments);
             this._super = tmp;
            
             return ret;
           };
-        })(name, prop[name]) :
+        })(name, prop[name]):
         prop[name];
     }
    
@@ -63,7 +63,7 @@
 })("Class");
 
 /*
- * Ellit graphing library implementation
+ * Elliot graphing library implementation
  *
  */
 var Elliot = Class.extend({
@@ -100,7 +100,7 @@ var ElliotBarGraph = Elliot.extend({
 			return function () {
 				self.drawBarGraph();
 			};
-		})(this), 50);
+		})(this), 1000);
 	},
 	addBarGraphData: function (barData) {
 		this.barData = barData;
@@ -114,8 +114,7 @@ var ElliotBarGraph = Elliot.extend({
 		this.drawBackground();
 		this.context.restore();
 
-		// TODO - Calculate spacing
-		// TODO - Calculate bar width
+		// Calculate spacing and bar width
 		var bar_width = (this.canvas.width / this.barData.length) * 0.4;
 		var bar_spacing = (this.canvas.width / this.barData.length) * 0.5;
 		this.context.save();
@@ -133,5 +132,86 @@ var ElliotBarGraph = Elliot.extend({
 			this.context.fillRect(from_x, from_y, bar_width, -(this.canvas.height - this.barData[i]['value']));
 		}
 		this.context.restore();
+	}
+});
+
+var ElliotMovingBarGraph = Elliot.extend({
+	init: function (canvas_id, config) {
+		// Add config to the super class
+		this._super(canvas_id, config);
+		
+		// Updated barData
+		this.updatedBarData = [];
+
+		// Offset for bar marker counting
+		this.offset = 0;
+
+		// Update the graph continously
+		this.drawInterval = setInterval((function (self) {
+			return function () {
+				self.drawBarGraph();
+			};
+		})(this), 500);
 	},
+	drawBarGraph: function () {
+		this.logInfo('Updating moving bar graph');
+
+		// Calculate how many bars we have
+		var barWidth = 5;
+		var barSpacing = 5;
+		var numBars = this.canvas.width / (barSpacing + barWidth);
+
+		// Update the incoming data to match the graph
+		if (this.updatedBarData.length === 0) {
+			for (var i = 0; i < numBars; i++) {
+				this.updatedBarData.unshift(0); // Add 0 to the data
+			}
+		} else if (this.updatedBarData.length > 0 && this.updatedBarData.length < numBars) {
+			for (var i = 0; i < numBars - updatedBarData.length; i++) {
+				this.updatedBarData.unshift(0); // Add 0 to the data
+			}
+		} else if (this.updatedBarData.length > numBars) {
+			for (var i = 0; i < this.updatedBarData.length - numBars; i++) {
+				this.updatedBarData.shift();
+			}
+		}
+
+		// Fill the background
+		this.context.save();
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.drawBackground();
+		this.context.restore();
+
+		// Calculate spacing and bar width
+		this.context.save();
+		var currentBar = numBars;
+		for (var x = 0; x < this.canvas.width - barSpacing; x += barSpacing + barWidth) {
+			// Draw the rectangle
+			if (currentBar % config['barGraph']['markerPosition'] - this.offset === 0) {
+				this.context.fillStyle = "#777777";
+			} else {
+				this.context.fillStyle = "#555555";
+			}
+			this.context.fillRect(x + barSpacing, 0, barWidth, this.canvas.height);
+
+			// Add bottom line
+			this.context.fillStyle = "#4BFFFF";
+			this.context.fillRect(x + barSpacing, this.canvas.height - 1, barWidth, this.canvas.height);
+
+			// Add data rect
+			//this.context.fillStyle = "#4BFFFF";
+			//this.context.fillRect(x + barSpacing, this.canvas.height - this.updatedBarData[currentBar], barWidth, this.canvas.height);
+
+			// Back one bar every time
+			currentBar--;
+		}
+		this.context.restore();
+
+		// Update the offset
+		if (this.offset < config['barGraph']['markerPosition'] - 1) {
+			this.offset++;
+		} else {
+			this.offset = 0;
+		}
+	}
 });
