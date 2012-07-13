@@ -2,6 +2,7 @@
 <head>
   <title>{{elliot}} PLAYGROUND</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type='text/javascript' src='prototype.js'></script>
   <script type='text/javascript' src='elliot.js'></script>
 </head>
 <body>
@@ -20,7 +21,21 @@
       ]
     },
   }
-  var elliot = new Elliot('mycanvas', config);
+
+  var elliot = new ElliotBarGraph('mycanvas', config);
+
+  // Add data to the graph
+  var dataInterval = setInterval(function () {
+    barData = [
+      {'title': 'Apple', 'value': Math.floor((Math.random()*500)+1)},
+      {'title': 'Pear', 'value': Math.floor((Math.random()*500)+1)},
+      {'title': 'Strawberries', 'value': Math.floor((Math.random()*500)+1)},
+      {'title': 'Melon', 'value': Math.floor((Math.random()*500)+1)},
+      {'title': 'Dragon fruit', 'value': Math.floor((Math.random()*500)+1)},
+      {'title': 'Papaya', 'value': Math.floor((Math.random()*500)+1)}
+      ];
+    elliot.addBarGraphData(barData);
+  }, 1000);
   </script>
 </body>
 </html>
