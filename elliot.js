@@ -86,7 +86,7 @@ var Elliot = Class.extend({
 	logInfo: function (message) { console.log('INFO - ' + message); },
 	logWarning: function (message) { console.log('WARN - ' + message); },
 	drawBackground: function () {
-		this.context.fillStyle = config['general']['background'];
+		this.context.fillStyle = this.config['general']['background'];
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 });
@@ -106,6 +106,13 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 		// Distinguish the first iteration
 		this.first = true;
+
+		// Incremental values
+		if (typeof(this.config['barGraph']['incrementalValues']) === 'undefined') {
+			this.incrementalValues = false;
+		} else {
+			this.incrementalValues = this.config['barGraph']['incrementalValues'];
+		}
 
 		// Offset for bar marker counting
 		this.offset = 0;
@@ -140,7 +147,9 @@ var ElliotMovingBarGraph = Elliot.extend({
 		if (!this.first) {
 			this.updatedBarData.splice(0, 1);
 			this.updatedBarData.push(this.nextValue);
-			this.nextValue = 0;
+			if (!this.incrementalValues) {
+				this.nextValue = 0;
+			}
 		} else {
 			this.first = false;
 		}
@@ -195,5 +204,12 @@ var ElliotMovingBarGraph = Elliot.extend({
 		} else {
 			this.offset = 0;
 		}
-	}
+	},
+	remove: function (count) {
+		if (typeof(count) === 'undefined') {
+			this.nextValue -= 1;
+		} else {
+			this.nextValue -= count;
+		}
+	},
 });
