@@ -178,7 +178,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		// Add a header
 		var titleMetrics = this.context.measureText(this.config['general']['title']);
 		this.context.save();
-		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + ' pt calibri';
+		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + ' pt arial';
 		this.context.fillStyle = "#ffffff";
 		this.context.fillText(
 			this.config['general']['title'],
