@@ -182,8 +182,20 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.fillStyle = "#ffffff";
 		this.context.fillText(
 			this.config['general']['yAxisTitle'],
-			this.canvas.width - yAxisTitleMetrics.width - 40,
+			this.graph.width + yAxisTitleMetrics.width + 40,
 			this.canvas.height - (this.graph.height / 2));
+		this.context.restore();
+
+		// Add Y axis ticks
+		this.context.save();
+		this.context.font = 'bold ' + this.config['general']['yAxisTicksFontSize'] + ' pt arial';
+		this.context.fillStyle = "#ffffff";
+		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
+			this.context.fillText(
+				Math.round((this.graph.height * this.graph.scale / this.config['general']['yAxisNumTicks']) * i),
+				this.graph.width + 5,
+				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i);
+		};
 		this.context.restore();
 
 
