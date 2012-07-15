@@ -72,6 +72,9 @@ var Elliot = Class.extend({
 		this.canvas = document.getElementById(canvas_id);
 		this.context = this.canvas.getContext('2d');
 
+		// Title bar height
+		var titleBarHeight = 20;
+
 		// Config object
 		this.config = config;
 
@@ -83,10 +86,10 @@ var Elliot = Class.extend({
 			this.logError('You must set both width and height on your canvas');
 		} else {
 			// Height and width
-			this.graph.width = this.canvas.width;
-			this.graph.height = this.canvas.height - 20;
+			this.graph.width = this.canvas.width - 100;
+			this.graph.height = this.canvas.height - titleBarHeight;
 			this.graph.x = 0;
-			this.graph.y = 20;
+			this.graph.y = titleBarHeight;
 
 			// Scaling setting
 			this.graph.scale = 1;
@@ -162,8 +165,8 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.restore();
 
 		// Add a header
-		var titleMetrics = this.context.measureText(this.config['general']['title']);
 		this.context.save();
+		var titleMetrics = this.context.measureText(this.config['general']['title']);
 		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + ' pt arial';
 		this.context.fillStyle = "#ffffff";
 		this.context.fillText(
@@ -171,6 +174,18 @@ var ElliotMovingBarGraph = Elliot.extend({
 			(this.graph.width - titleMetrics.width) / 2,
 			this.config['general']['titleFontSize']);
 		this.context.restore();
+
+		// Add a Y axis title
+		this.context.save();
+		var yAxisTitleMetrics = this.context.measureText(this.config['general']['yAxisTitle']);
+		this.context.font = 'bold ' + this.config['general']['yAxisFontSize'] + ' pt arial';
+		this.context.fillStyle = "#ffffff";
+		this.context.fillText(
+			this.config['general']['yAxisTitle'],
+			this.canvas.width - yAxisTitleMetrics.width - 30,
+			this.canvas.height - (this.graph.height / 2));
+		this.context.restore();
+
 
 		// Calculate how many bars we have
 		var numBars = this.graph.width / (this.barSpacing + this.barWidth);
@@ -211,7 +226,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 			this.context.fillRect(
 				x + this.barSpacing, 
-				this.graph.y, // Increase the title bar height slightly
+				this.graph.y,
 				this.barWidth, 
 				this.graph.height);
 
