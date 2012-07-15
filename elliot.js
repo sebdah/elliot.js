@@ -88,6 +88,9 @@ var Elliot = Class.extend({
 			this.graph.x = 0;
 			this.graph.y = 20;
 
+			// Scaling setting
+			this.graph.scale = 1;
+
 			this.logDebug('Canvas dimensions set to ' + this.canvas.width + 'x' + this.canvas.height);
 			this.logDebug('Graph dimensions set to ' + this.graph.width + 'x' + this.graph.height);
 			this.logDebug('Graph coordinates (' + this.graph.x + ',' + this.graph.y + ')');
@@ -220,11 +223,20 @@ var ElliotMovingBarGraph = Elliot.extend({
 				this.barWidth,
 				this.graph.height);
 
+			// TODO - Implement scaling
+			if (this.updatedBarData[i] > 0) {
+				if (this.graph.scale < Math.round((this.updatedBarData[i] / this.graph.height) + 0.6)) {
+					this.logDebug(this.updatedBarData[i] + "/" + this.graph.height);
+					this.graph.scale = Math.round((this.updatedBarData[i] / this.graph.height) + 0.6);
+					this.logDebug("Scale changed to " + this.graph.scale);
+				}
+			}
+
 			// Add data rect
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
 				x + this.barSpacing, 
-				this.graph.y + this.graph.height - this.updatedBarData[i], 
+				this.graph.y + this.graph.height - (this.updatedBarData[i] / this.graph.scale),
 				this.barWidth, 
 				this.graph.height);
 
