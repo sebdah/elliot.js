@@ -1,44 +1,51 @@
 <html>
 <head>
   <title>{{elliot}} PLAYGROUND</title>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Sans+Mono|Droid+Serif:400,700|Nobile:400,700' rel='stylesheet' type='text/css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type='text/javascript' src='prototype.js'></script>
   <script type='text/javascript' src='elliot.js'></script>
+  <style type='text/css'>
+  body {
+    color: #ffffff;
+  }
+  .header {
+    font-family: 'Nobile';
+    font-weight: bold;
+    font-size: 2em;
+  }
+  .header-small {
+    font-family: 'Nobile';
+    font-weight: bold;
+    font-size: 1em;
+  }
+  </style>
 </head>
 <body bgcolor='#2F2C2B'>
-  <canvas id="mycanvas" width='600' height='200'>Your browser does not support HTML 5, please upgrade</canvas>
+  <span class='header'>{{elliot}}</span> <span class='header-small'>playground</span><br />
+  <canvas id="mycanvas1" width='600' height='200'></canvas><br /><br /><br />
+  <canvas id="mycanvas2" width='600' height='200'></canvas>
   <script type="text/javascript">
   var config = {
     'general': {
       'background': '#2F2C2B',
-      'graphColors': [
-        '#ff0000',
-        '#ffea68',
-        '#ffffff',
-        '#ff0000',
-        '#ffea68',
-        '#ffffff',
-      ]
     },
     'barGraph': {
       'markerPosition': 20,
     }
   }
 
-  var elliot = new ElliotMovingBarGraph('mycanvas', config);
+  var elliot1 = new ElliotMovingBarGraph('mycanvas1', config);
+  var elliot2 = new ElliotMovingBarGraph('mycanvas2', config);
 
-  /* Add data to the graph
+  // Add data to the graph
   var dataInterval = setInterval(function () {
-    barData = [
-      {'title': 'Apple', 'value': Math.floor((Math.random()*500)+1)},
-      {'title': 'Pear', 'value': Math.floor((Math.random()*500)+1)},
-      {'title': 'Strawberries', 'value': Math.floor((Math.random()*500)+1)},
-      {'title': 'Melon', 'value': Math.floor((Math.random()*500)+1)},
-      {'title': 'Dragon fruit', 'value': Math.floor((Math.random()*500)+1)},
-      {'title': 'Papaya', 'value': Math.floor((Math.random()*500)+1)}
-      ];
-    elliot.addBarGraphData(barData);
-  }, 1000);*/
+    elliot1.add(Math.floor((Math.random()*3)+1));
+  }, Math.floor((Math.random()*40)+1));
+
+  // Add data to the graph
+  var dataInterval = setInterval(function () {
+    elliot2.add(Math.floor((Math.random()*3)+1));
+  }, Math.floor((Math.random()*40)+1));
   </script>
 </body>
 </html>

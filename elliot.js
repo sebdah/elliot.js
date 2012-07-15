@@ -141,45 +141,53 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this._super(canvas_id, config);
 		
 		// Updated barData
-		this.updatedBarData = [0,10,20,20,15,4,50];
+		this.updatedBarData = [];
+		this.nextValue = 0;
+
+		this.first = true;
 
 		// Offset for bar marker counting
 		this.offset = 0;
 
 		// Update the graph continously
+		this.drawBarGraph();
 		this.drawInterval = setInterval((function (self) {
 			return function () {
 				self.drawBarGraph();
 			};
 		})(this), 500);
 	},
+	add: function (count) {
+		if (typeof(count) === 'undefined') {
+			this.nextValue += 1;
+		} else {
+			this.nextValue += count;
+		}
+	},
 	drawBarGraph: function () {
-		this.logInfo('Updating moving bar graph');
-
 		// Calculate how many bars we have
 		var barWidth = 5;
 		var barSpacing = 5;
 		var numBars = this.canvas.width / (barSpacing + barWidth);
 
+		if (!this.first) {
+			this.updatedBarData.splice(0, 1);
+			this.updatedBarData.push(this.nextValue);
+			this.nextValue = 0;
+		} else {
+			this.first = false;
+		}
+
 		// Update the incoming data to match the graph
-		uBD = this.updatedBarData.length;
-		if (uBD === 0) {
-			for (var i = 0; i < numBars; i++) {
-				this.updatedBarData.unshift(0); // Add 0 to the data
+		if (this.updatedBarData.length > numBars + 1) {
+			while (this.updatedBarData.length > numBars) {
+				this.updatedBarData.splice(0, 1);
 			}
-		} else if (uBD > 0 && uBD < numBars) {
-			this.logDebug("a");
-			for (var i = 0; i < numBars - uBD; i++) {
-				this.logDebug(numBars - uBD);
-				this.updatedBarData.unshift(0); // Add 0 to the data
-			}
-		} else if (uBD > numBars) {
-			for (var i = 0; i < uBD - numBars; i++) {
-				this.updatedBarData.shift();
+		} else if (this.updatedBarData.length <= numBars) {
+			while (this.updatedBarData.length <= numBars) {
+				this.updatedBarData.push(0); // Add 0 to the data
 			}
 		}
-		this.logDebug("updatedBarData: " + this.updatedBarData);
-		this.logDebug("numBars: " + numBars);
 
 		// Fill the background
 		this.context.save();
