@@ -99,10 +99,10 @@ var Elliot = Class.extend({
 			this.logDebug('Graph coordinates (' + this.graph.x + ',' + this.graph.y + ')');
 		}
 	},
-	logDebug: function (message) { console.log('DEBUG - ' + message); },
-	logError: function (message) { console.log('ERROR - ' + message); },
-	logInfo: function (message) { console.log('INFO - ' + message); },
-	logWarning: function (message) { console.log('WARN - ' + message); },
+	logDebug: function (message) { console.log(this.canvas.id + ' - DEBUG - ' + message); },
+	logError: function (message) { console.log(this.canvas.id + ' - ERROR - ' + message); },
+	logInfo: function (message) { console.log(this.canvas.id + ' - INFO - ' + message); },
+	logWarning: function (message) { console.log(this.canvas.id + ' - WARN - ' + message); },
 	drawBackground: function () {
 		this.context.fillStyle = this.config['general']['background'];
 		this.context.fillRect(0, 0, this.graph.width, this.graph.height);
