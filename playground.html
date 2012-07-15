@@ -31,11 +31,28 @@
     },
     'barGraph': {
       'markerPosition': 20,
+      'updateFrequency': 200,
+      'barBackgroundColor': '#555555',
+      'barColor': '#4BFFFF',
+      'markerColor': '#777777',
+    }
+  }
+
+  var config2 = {
+    'general': {
+      'background': '#2F2C2B',
+    },
+    'barGraph': {
+      'markerPosition': 20,
+      'updateFrequency': 200,
+      'barBackgroundColor': '#555555',
+      'barColor': '#ff6060',
+      'markerColor': '#777777',
     }
   }
 
   var elliot1 = new ElliotMovingBarGraph('mycanvas1', config);
-  var elliot2 = new ElliotMovingBarGraph('mycanvas2', config);
+  var elliot2 = new ElliotMovingBarGraph('mycanvas2', config2);
 
   // Add data to the graph
   var dataInterval = setInterval(function () {

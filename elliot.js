@@ -72,6 +72,9 @@ var Elliot = Class.extend({
 		this.canvas = document.getElementById(canvas_id);
 		this.context = this.canvas.getContext('2d');
 
+		// Config object
+		this.config = config;
+
 		// Check that the user has defined width and height on the canvas
 		if (isNaN(this.canvas.width) || isNaN(this.canvas.height))
 			this.logError('You must set both width and height on your canvas');
@@ -97,10 +100,18 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.updatedBarData = [];
 		this.nextValue = 0;
 
+		// Distinguish the first iteration
 		this.first = true;
 
 		// Offset for bar marker counting
 		this.offset = 0;
+
+		// Update frequency
+		if (typeof(this.config['barGraph']['updateFrequency']) === 'undefined') {
+			this.updateFrequency = 500;
+		} else {
+			this.updateFrequency = this.config['barGraph']['updateFrequency'];
+		}
 
 		// Update the graph continously
 		this.drawBarGraph();
@@ -108,7 +119,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 			return function () {
 				self.drawBarGraph();
 			};
-		})(this), 500);
+		})(this), this.updateFrequency);
 	},
 	add: function (count) {
 		if (typeof(count) === 'undefined') {
@@ -154,19 +165,19 @@ var ElliotMovingBarGraph = Elliot.extend({
 		var i = 0;
 		for (var x = 0; x < this.canvas.width - barSpacing; x += barSpacing + barWidth) {
 			// Draw the rectangle
-			if (currentBar % config['barGraph']['markerPosition'] - this.offset === 0) {
-				this.context.fillStyle = "#777777";
+			if (currentBar % this.config['barGraph']['markerPosition'] - this.offset === 0) {
+				this.context.fillStyle = this.config['barGraph']['markerColor'];
 			} else {
-				this.context.fillStyle = "#555555";
+				this.context.fillStyle = this.config['barGraph']['barBackgroundColor'];
 			}
 			this.context.fillRect(x + barSpacing, 0, barWidth, this.canvas.height);
 
 			// Add bottom line
-			this.context.fillStyle = "#4BFFFF";
+			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(x + barSpacing, this.canvas.height - 1, barWidth, this.canvas.height);
 
 			// Add data rect
-			this.context.fillStyle = "#4BFFFF";
+			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(x + barSpacing, this.canvas.height - this.updatedBarData[i], barWidth, this.canvas.height);
 
 			// Back one bar every time
@@ -178,7 +189,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.updatedBarData.pop();
 
 		// Update the offset
-		if (this.offset < config['barGraph']['markerPosition'] - 1) {
+		if (this.offset < this.config['barGraph']['markerPosition'] - 1) {
 			this.offset++;
 		} else {
 			this.offset = 0;
