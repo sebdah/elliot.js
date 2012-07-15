@@ -250,11 +250,11 @@ var ElliotMovingBarGraph = Elliot.extend({
 				this.barWidth,
 				this.graph.height);
 
-			// TODO - Implement scaling
+			// Scaling logic
 			if (this.updatedBarData[i] > 0) {
-				if (this.graph.scale < Math.round((this.updatedBarData[i] / this.graph.height) + 0.6)) {
+				if (this.graph.scale < Math.round((this.updatedBarData[i] / (this.graph.height * 0.9)) + 0.6)) {
 					this.logDebug(this.updatedBarData[i] + "/" + this.graph.height);
-					this.graph.scale = Math.round((this.updatedBarData[i] / this.graph.height) + 0.6);
+					this.graph.scale = Math.round((this.updatedBarData[i] / (this.graph.height * 0.9)) + 0.6);
 					this.logDebug("Scale changed to " + this.graph.scale);
 				}
 			}
