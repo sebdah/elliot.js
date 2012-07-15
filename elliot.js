@@ -76,10 +76,14 @@ var Elliot = Class.extend({
 		this.config = config;
 
 		// Check that the user has defined width and height on the canvas
-		if (isNaN(this.canvas.width) || isNaN(this.canvas.height))
+		if (isNaN(this.canvas.width) || isNaN(this.canvas.height)) {
 			this.logError('You must set both width and height on your canvas');
-		else
-			this.logDebug('Canvas dimensions set to ' + this.canvas.width + 'x' + this.canvas.height);
+		} else {
+			// Height and width
+			this.graphWidth = this.canvas.width;
+			this.graphHeight = this.canvas.height;
+			this.logDebug('Canvas dimensions set to ' + this.graphWidth + 'x' + this.graphHeight);
+		}
 	},
 	logDebug: function (message) { console.log('DEBUG - ' + message); },
 	logError: function (message) { console.log('ERROR - ' + message); },
@@ -87,7 +91,7 @@ var Elliot = Class.extend({
 	logWarning: function (message) { console.log('WARN - ' + message); },
 	drawBackground: function () {
 		this.context.fillStyle = this.config['general']['background'];
-		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.fillRect(0, 0, this.graphWidth, this.graphHeight);
 	}
 });
 
@@ -141,7 +145,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 	},
 	drawBarGraph: function () {
 		// Calculate how many bars we have
-		var numBars = this.canvas.width / (this.barSpacing + this.barWidth);
+		var numBars = this.graphWidth / (this.barSpacing + this.barWidth);
 
 		// Add the last data point to the data list
 		if (!this.first) {
@@ -167,30 +171,53 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 		// Fill the background
 		this.context.save();
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.context.clearRect(0, 0, this.graphWidth, this.graphHeight);
 		this.drawBackground();
+		this.context.restore();
+
+		// Add a header
+		this.context.save();
+		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + ' pt calibri';
+		this.context.fillStyle = "#ffffff";
+		this.context.fillText(
+			this.config['general']['title'],
+			(this.graphWidth - this.config['general']['title'].length * 4) / 2,
+			this.config['general']['titleFontSize']);
 		this.context.restore();
 
 		// Calculate spacing and bar width
 		this.context.save();
 		var currentBar = numBars;
 		var i = 0;
-		for (var x = 0; x < this.canvas.width - this.barSpacing; x += this.barSpacing + this.barWidth) {
+		for (var x = 0; x < this.graphWidth - this.barSpacing; x += this.barSpacing + this.barWidth) {
 			// Draw the rectangle
 			if (currentBar % this.config['barGraph']['markerPosition'] - this.offset === 0) {
 				this.context.fillStyle = this.config['barGraph']['markerColor'];
 			} else {
 				this.context.fillStyle = this.config['barGraph']['barBackgroundColor'];
 			}
-			this.context.fillRect(x + this.barSpacing, 0, this.barWidth, this.canvas.height);
+
+			this.context.fillRect(
+				x + this.barSpacing, 
+				this.config['general']['titleFontSize'] + (this.config['general']['titleFontSize'] * 0.5), // Increase the title bar height slightly
+				this.barWidth, 
+				this.graphHeight);
 
 			// Add bottom line
 			this.context.fillStyle = this.config['barGraph']['barColor'];
-			this.context.fillRect(x + this.barSpacing, this.canvas.height - 1, this.barWidth, this.canvas.height);
+			this.context.fillRect(
+				x + this.barSpacing,
+				this.graphHeight - 1,
+				this.barWidth,
+				this.graphHeight);
 
 			// Add data rect
 			this.context.fillStyle = this.config['barGraph']['barColor'];
-			this.context.fillRect(x + this.barSpacing, this.canvas.height - this.updatedBarData[i], this.barWidth, this.canvas.height);
+			this.context.fillRect(
+				x + this.barSpacing, 
+				this.graphHeight - this.updatedBarData[i], 
+				this.barWidth, 
+				this.graphHeight);
 
 			// Back one bar every time
 			currentBar--;

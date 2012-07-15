@@ -29,6 +29,8 @@
   var config1 = {
     'general': {
       'background': '#2F2C2B',
+      'title': 'Requests',
+      'titleFontSize': 11,
     },
     'barGraph': {
       'markerPosition': 20, // Set to 0 to turn markers off
@@ -43,6 +45,8 @@
   var config2 = {
     'general': {
       'background': '#2F2C2B',
+      'title': 'Requests per second',
+      'titleFontSize': 11,
     },
     'barGraph': {
       'markerPosition': 20, // Set to 0 to turn markers off
@@ -63,8 +67,8 @@
   // Add data to the graph
   var elliot2 = new ElliotMovingBarGraph('mycanvas2', config2);
   var dataInterval2 = setInterval(function () {
-    elliot2.add(Math.floor((Math.random()*50)+1));
-    elliot2.remove(Math.floor((Math.random()*40)+1));
+    elliot2.add(Math.floor((Math.random()*25)+1));
+    elliot2.remove(Math.floor((Math.random()*20)+1));
   }, 1000);
   </script>
 </body>
