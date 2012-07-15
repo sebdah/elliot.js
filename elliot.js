@@ -88,53 +88,6 @@ var Elliot = Class.extend({
 	}
 });
 
-var ElliotBarGraph = Elliot.extend({
-	init: function (canvas_id, config) {
-		this._super(canvas_id, config);
-
-		// Bar data array
-		this.barData = [{'title': '', 'value': this.canvas.height}];
-
-		// Update the graph continously
-		this.drawInterval = setInterval((function (self) {
-			return function () {
-				self.drawBarGraph();
-			};
-		})(this), 1000);
-	},
-	addBarGraphData: function (barData) {
-		this.barData = barData;
-	},
-	drawBarGraph: function () {
-		this.logInfo('Drawing bar graph');
-
-		// Fill the background
-		this.context.save();
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.drawBackground();
-		this.context.restore();
-
-		// Calculate spacing and bar width
-		var bar_width = (this.canvas.width / this.barData.length) * 0.4;
-		var bar_spacing = (this.canvas.width / this.barData.length) * 0.5;
-		this.context.save();
-		var last_x = 0;
-		for (var i = 0 ; i < this.barData.length; i++) {
-			// Calculate x and y coordinates
-			var from_x = last_x + bar_spacing;
-			var from_y = this.canvas.height;
-
-			// Update last x position
-			last_x = from_x + bar_width;
-
-			// Draw the rectangle
-			this.context.fillStyle = config['general']['graphColors'][i % config['general']['graphColors'].length];
-			this.context.fillRect(from_x, from_y, bar_width, -(this.canvas.height - this.barData[i]['value']));
-		}
-		this.context.restore();
-	}
-});
-
 var ElliotMovingBarGraph = Elliot.extend({
 	init: function (canvas_id, config) {
 		// Add config to the super class
