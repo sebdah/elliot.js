@@ -160,7 +160,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 	drawBarGraph: function () {
 		// Fill the background
 		this.context.save();
-		this.context.clearRect(0, 0, this.graph.width, this.graph.height);
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.drawBackground();
 		this.context.restore();
 
@@ -182,7 +182,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.fillStyle = "#ffffff";
 		this.context.fillText(
 			this.config['general']['yAxisTitle'],
-			this.canvas.width - yAxisTitleMetrics.width - 30,
+			this.canvas.width - yAxisTitleMetrics.width - 40,
 			this.canvas.height - (this.graph.height / 2));
 		this.context.restore();
 
