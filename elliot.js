@@ -257,7 +257,7 @@ var ElliotBarGraph = Elliot.extend({
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
 		this.graph.maxValue = maxValue * 1.1;
-		this.graph.minValue = minValue * 0.9;
+		this.graph.minValue = minValue * 0.8;
 
 		/*
 		* Add Y axis ticks
@@ -270,12 +270,12 @@ var ElliotBarGraph = Elliot.extend({
 				this.context.fillText(
 					Math.round(this.graph.minValue), // Tick text
 					this.graph.width + 6, // x
-					this.canvas.height - ((this.graph.height) / this.config['general']['yAxisNumTicks']) * i); // y
+					this.canvas.height - 2 - ((this.graph.height) / this.config['general']['yAxisNumTicks']) * i); // y
 			} else {
 				this.context.fillText(
 					Math.round((((this.graph.maxValue - this.graph.minValue) / this.config['general']['yAxisNumTicks']) * i) + this.graph.minValue), // Tick text
 					this.graph.width + 6, // x
-					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
+					this.canvas.height - ((this.graph.height) / this.config['general']['yAxisNumTicks']) * i); // y
 			}
 		}
 		this.context.restore();
