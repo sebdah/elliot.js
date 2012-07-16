@@ -64,7 +64,7 @@
     },
     'barGraph': {
       'markerPosition': 20, // Show marker every n bars. Set to 0 to turn markers off
-      'updateFrequency': 100, // How often should the graph be updated, in ms
+      'updateFrequency': 500, // How often should the graph be updated, in ms
       'incrementalValues': true, // Should values be incremental?
       'barBackgroundColor': '#555555', // Color of the bars (where there is no data)
       'barColor': '#ff6060', // Color of data in the bars
@@ -84,9 +84,9 @@
   var elliot2 = new ElliotMovingBarGraph('mycanvas2', config2);
   elliot2.add(Math.floor(25000));
   var dataInterval2 = setInterval(function () {
-    //elliot2.remove(Math.floor(1000));
-    elliot2.add(Math.floor((Math.random()*2000)+1));
-    elliot2.remove(Math.floor((Math.random()*1000)+1));
+    elliot2.remove(Math.floor(1000));
+    //elliot2.add(Math.floor((Math.random()*2000)+1));
+    //elliot2.remove(Math.floor((Math.random()*1000)+1));
   }, 1000);
   </script>
 </body>

@@ -244,6 +244,8 @@ var ElliotMovingBarGraph = Elliot.extend({
 			this.logDebug("Scale changed to " + this.graph.scale);
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
+		this.graph.maxValue = maxValue * 1.1;
+		this.graph.minValue = minValue * 0.9;
 
 		/*
 		* Add Y axis ticks
@@ -251,12 +253,21 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.save();
 		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + ' pt arial';
 		this.context.fillStyle = this.config['general']['yAxisFontColor'];
+		
 		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
-			this.context.fillText(
-				Math.round((this.graph.scaledHeight / this.config['general']['yAxisNumTicks']) * i), // Tick text
-				this.graph.width + 5, // x
-				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
+			if (i === 0) {
+				this.context.fillText(
+					Math.round(this.graph.minValue), // Tick text
+					this.graph.width + 5, // x
+					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
+			} else {
+				this.context.fillText(
+					Math.round((((this.graph.maxValue - this.graph.minValue) / this.config['general']['yAxisNumTicks']) * i) + this.graph.minValue), // Tick text
+					this.graph.width + 5, // x
+					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
+			}
 		}
+
 		this.context.restore();
 
 		/*
@@ -287,10 +298,12 @@ var ElliotMovingBarGraph = Elliot.extend({
 				this.graph.height);
 
 			// Add data rect
+			var point = this.graph.height - ((this.graph.height / (this.graph.maxValue - this.graph.minValue)) * (this.graph.maxValue - this.updatedBarData[i]));
+
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
 				x + this.barSpacing,
-				this.graph.y + this.graph.height - (this.updatedBarData[i] / this.graph.scale),
+				this.graph.y + this.graph.height - point,
 				this.barWidth,
 				this.graph.height);
 
