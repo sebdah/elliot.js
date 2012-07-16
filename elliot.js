@@ -118,7 +118,7 @@ var Elliot = Class.extend({
 	}
 });
 
-var ElliotMovingBarGraph = Elliot.extend({
+var ElliotBarGraph = Elliot.extend({
 	init: function (canvas_id, config) {
 		// Add config to the super class
 		this._super(canvas_id, config);
@@ -252,7 +252,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 			}
 			this.logDebug("Scale changed to " + this.graph.scale);
 		}
-		if (this.graph.minValue < 1) {
+		if (this.graph.minValue < 0) {
 			minValue = 0;
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
@@ -265,13 +265,12 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.save();
 		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + 'pt Nobile';
 		this.context.fillStyle = this.config['general']['yAxisFontColor'];
-		
 		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
 			if (i === 0) {
 				this.context.fillText(
 					Math.round(this.graph.minValue), // Tick text
 					this.graph.width + 6, // x
-					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
+					this.canvas.height - ((this.graph.height) / this.config['general']['yAxisNumTicks']) * i); // y
 			} else {
 				this.context.fillText(
 					Math.round((((this.graph.maxValue - this.graph.minValue) / this.config['general']['yAxisNumTicks']) * i) + this.graph.minValue), // Tick text
@@ -279,7 +278,6 @@ var ElliotMovingBarGraph = Elliot.extend({
 					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
 			}
 		}
-
 		this.context.restore();
 
 		/*

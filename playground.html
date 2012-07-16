@@ -77,13 +77,13 @@
   }
 
   // Add data to the graph
-  var elliot1 = new ElliotMovingBarGraph('mycanvas1', config1);
+  var elliot1 = new ElliotBarGraph('mycanvas1', config1);
   var dataInterval = setInterval(function () {
     elliot1.add(Math.floor((Math.random()*3)+1));
   }, Math.floor((Math.random()*40)+1));
 
   // Add data to the graph
-  var elliot2 = new ElliotMovingBarGraph('mycanvas2', config2);
+  var elliot2 = new ElliotBarGraph('mycanvas2', config2);
   elliot2.add(Math.floor(25000));
   var dataInterval2 = setInterval(function () {
     elliot2.remove(Math.floor(1000));

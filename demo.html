@@ -114,7 +114,7 @@
       'yAxisFontColor': '#ffffff', // Y axis font color
       'yAxisNumTicks': 4, // How many ticks should be shown
       'yAxisTickFontSize': 8, // Y axis tick font size
-      'logLevel': '', // Set log level (DEBUG, INFO, WARNING, ERROR). Defaults to no logging.
+      'logLevel': 'ERROR', // Set log level (DEBUG, INFO, WARNING, ERROR). Defaults to no logging.
     },
     'barGraph': {
       'markerPosition': 10, // Show marker every n bars. Set to 0 to turn markers off
@@ -129,13 +129,13 @@
   }
 
   // Add data to the graph
-  var elliot1 = new ElliotMovingBarGraph('mycanvas1', config1);
+  var elliot1 = new ElliotBarGraph('mycanvas1', config1);
   var dataInterval = setInterval(function () {
     elliot1.add(Math.floor((Math.random()*8)+1));
   }, Math.floor((Math.random()*40)+1));
 
   // Add data to the graph
-  var elliot2 = new ElliotMovingBarGraph('mycanvas2', config2);
+  var elliot2 = new ElliotBarGraph('mycanvas2', config2);
   elliot2.add(Math.floor(25000));
   var dataInterval2 = setInterval(function () {
     elliot2.add(Math.floor((Math.random()*2200)+1));
@@ -143,16 +143,16 @@
   }, 1000);
 
   // Add data to the graph
-  var elliot3 = new ElliotMovingBarGraph('mycanvas3', config3);
+  var elliot3 = new ElliotBarGraph('mycanvas3', config3);
   var dataInterval = setInterval(function () {
     elliot3.add(Math.floor((Math.random()*8)+1));
   }, Math.floor((Math.random()*1000)+1));
 
   // Add data to the graph
-  var elliot4 = new ElliotMovingBarGraph('mycanvas4', config4);
+  var elliot4 = new ElliotBarGraph('mycanvas4', config4);
   var dataInterval = setInterval(function () {
     elliot4.add(Math.floor((Math.random()*1000)+100));
-  }, Math.floor((Math.random()*100)+1));
+  }, Math.floor((Math.random()*60)+1));
   </script>
 </body>
 </html>
