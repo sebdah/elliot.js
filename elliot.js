@@ -81,6 +81,20 @@ var Elliot = Class.extend({
 		// Graph config object
 		this.graph = {};
 
+		// Set configuration defaults
+		if (typeof(this.config['general']['background']) === 'undefined') { this.config['general']['background'] = '#ffffff'; }
+		if (typeof(this.config['general']['title']) === 'undefined') { this.config['general']['title'] = ''; }
+		if (typeof(this.config['general']['titleFont']) === 'undefined') { this.config['general']['titleFont'] = 'Arial'; }
+		if (typeof(this.config['general']['titleFontSize']) === 'undefined') { this.config['general']['titleFontSize'] = 11; }
+		if (typeof(this.config['general']['titleFontColor']) === 'undefined') { this.config['general']['titleFontColor'] = '#000000'; }
+		if (typeof(this.config['general']['yAxisTitle']) === 'undefined') { this.config['general']['yAxisTitle'] = ''; }
+		if (typeof(this.config['general']['yAxisFont']) === 'undefined') { this.config['general']['yAxisFont'] = 'Arial'; }
+		if (typeof(this.config['general']['yAxisFontSize']) === 'undefined') { this.config['general']['yAxisFontSize'] = 10; }
+		if (typeof(this.config['general']['yAxisFontSize']) === 'undefined') { this.config['general']['yAxisFontSize'] = 10; }
+		if (typeof(this.config['general']['yAxisFontColor']) === 'undefined') { this.config['general']['yAxisFontColor'] = '#000000'; }
+		if (typeof(this.config['general']['yAxisNumTicks']) === 'undefined') { this.config['general']['yAxisNumTicks'] = 2; }
+		if (typeof(this.config['general']['yAxisTickFontSize']) === 'undefined') { this.config['general']['yAxisTickFontSize'] = 8; }
+		if (typeof(this.config['general']['logLevel']) === 'undefined') { this.config['general']['logLevel'] = ''; }
 
 		// Set log level
 		this.logLevel = 0;
@@ -123,19 +137,15 @@ var ElliotBarGraph = Elliot.extend({
 		// Add config to the super class
 		this._super(canvas_id, config);
 
-		// Bar width
-		if (typeof(this.config['barGraph']['barWidth']) === 'undefined') {
-			this.barWidth = 5;
-		} else {
-			this.barWidth = this.config['barGraph']['barWidth'];
-		}
-
-		// Bar spacing
-		if (typeof(this.config['barGraph']['barSpacing']) === 'undefined') {
-			this.barSpacing = 5;
-		} else {
-			this.barSpacing = this.config['barGraph']['barSpacing'];
-		}
+		// Set config option default
+		if (typeof(this.config['barGraph']['markerPosition']) === 'undefined') { this.config['barGraph']['markerPosition'] = 10; }
+		if (typeof(this.config['barGraph']['updateFrequency']) === 'undefined') { this.config['barGraph']['updateFrequency'] = 500; }
+		if (typeof(this.config['barGraph']['incrementalValues']) === 'undefined') { this.config['barGraph']['incrementalValues'] = false; }
+		if (typeof(this.config['barGraph']['barBackgroundColor']) === 'undefined') { this.config['barGraph']['barBackgroundColor'] = '#ffffff'; }
+		if (typeof(this.config['barGraph']['barColor']) === 'undefined') { this.config['barGraph']['barColor'] = '#000000'; }
+		if (typeof(this.config['barGraph']['markerColor']) === 'undefined') { this.config['barGraph']['markerColor'] = '#777777'; }
+		if (typeof(this.config['barGraph']['barWidth']) === 'undefined') { this.config['barGraph']['barWidth'] = 5; }
+		if (typeof(this.config['barGraph']['barSpacing']) === 'undefined') { this.config['barGraph']['barSpacing'] = 5; }
 
 		// Updated barData
 		this.updatedBarData = [];
@@ -212,7 +222,7 @@ var ElliotBarGraph = Elliot.extend({
 
 		
 		// Calculate how many bars we have
-		var numBars = this.graph.width / (this.barSpacing + this.barWidth);
+		var numBars = this.graph.width / (this.config['barGraph']['barSpacing'] + this.config['barGraph']['barWidth']);
 
 		// Add the last data point to the data list
 		if (!this.first) {
@@ -286,7 +296,7 @@ var ElliotBarGraph = Elliot.extend({
 		this.context.save();
 		var currentBar = numBars;
 		i = 0;
-		for (var x = this.graph.x; x < this.graph.width - this.barSpacing; x += this.barSpacing + this.barWidth) {
+		for (var x = this.graph.x; x < this.graph.width - this.config['barGraph']['barSpacing']; x += this.config['barGraph']['barSpacing'] + this.config['barGraph']['barWidth']) {
 			// We do not handle negative numbers
 			var val = 0;
 			if (this.updatedBarData[i] < 0) {
@@ -302,26 +312,26 @@ var ElliotBarGraph = Elliot.extend({
 				this.context.fillStyle = this.config['barGraph']['barBackgroundColor'];
 			}
 			this.context.fillRect(
-				x + this.barSpacing,
+				x + this.config['barGraph']['barSpacing'],
 				this.graph.y,
-				this.barWidth,
+				this.config['barGraph']['barWidth'],
 				this.graph.height);
 
 			// Add bottom line (the bottom 1 pixel)
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
-				x + this.barSpacing,
+				x + this.config['barGraph']['barSpacing'],
 				this.graph.y + this.graph.height - 1,
-				this.barWidth,
+				this.config['barGraph']['barWidth'],
 				this.graph.height);
 
 			// Add data rect
 			var point = this.graph.height - ((this.graph.height / (this.graph.maxValue - this.graph.minValue)) * (this.graph.maxValue - this.updatedBarData[i]));
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
-				x + this.barSpacing,
+				x + this.config['barGraph']['barSpacing'],
 				this.graph.y + this.graph.height - point,
-				this.barWidth,
+				this.config['barGraph']['barWidth'],
 				this.graph.height);
 
 			// Back one bar every time
