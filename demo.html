@@ -86,7 +86,7 @@
       'yAxisTitle': 'Customers', // Y axis title
       'yAxisFontSize': 10, // Y axis font size
       'yAxisFontColor': '#ffffff', // Y axis font color
-      'yAxisNumTicks': 7, // How many ticks should be shown
+      'yAxisNumTicks': 2, // How many ticks should be shown
       'yAxisTickFontSize': 8, // Y axis tick font size
       'logLevel': '', // Set log level (DEBUG, INFO, WARNING, ERROR). Defaults to no logging.
     },
@@ -119,7 +119,7 @@
   // Add data to the graph
   var elliot3 = new ElliotMovingBarGraph('mycanvas3', config3);
   var dataInterval = setInterval(function () {
-    elliot3.add(Math.floor((Math.random()*3)+1));
+    elliot3.add(Math.floor((Math.random()*8)+1));
   }, Math.floor((Math.random()*1000)+1));
   </script>
 </body>
