@@ -104,6 +104,7 @@ var Elliot = Class.extend({
 	logInfo: function (message) { console.log(this.canvas.id + ' - INFO - ' + message); },
 	logWarning: function (message) { console.log(this.canvas.id + ' - WARN - ' + message); },
 	drawBackground: function () {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.fillStyle = this.config['general']['background'];
 		this.context.fillRect(0, 0, this.graph.width, this.graph.height);
 	}
@@ -114,10 +115,20 @@ var ElliotMovingBarGraph = Elliot.extend({
 		// Add config to the super class
 		this._super(canvas_id, config);
 
-		// Bar graph settings
-		this.barWidth = 5;
-		this.barSpacing = 5;
-		
+		// Bar width
+		if (typeof(this.config['barGraph']['barWidth']) === 'undefined') {
+			this.barWidth = 5;
+		} else {
+			this.barWidth = this.config['barGraph']['barWidth'];
+		}
+
+		// Bar spacing
+		if (typeof(this.config['barGraph']['barSpacing']) === 'undefined') {
+			this.barSpacing = 5;
+		} else {
+			this.barSpacing = this.config['barGraph']['barSpacing'];
+		}
+
 		// Updated barData
 		this.updatedBarData = [];
 		this.nextValue = 0;
@@ -158,43 +169,50 @@ var ElliotMovingBarGraph = Elliot.extend({
 		}
 	},
 	drawBarGraph: function () {
-		// Fill the background
+		/*
+		* Fill the background
+		*/
 		this.context.save();
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.drawBackground();
 		this.context.restore();
 
-		// Add a header
+		/*
+		* Add a header
+		*/
 		this.context.save();
-		var titleMetrics = this.context.measureText(this.config['general']['title']);
+		var titleMetrics = this.context.measureText(this.config['general']['title']); // Measure the size of the text object
 		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + ' pt arial';
-		this.context.fillStyle = "#ffffff";
+		this.context.fillStyle = this.config['general']['titleFontColor'];
 		this.context.fillText(
-			this.config['general']['title'],
-			(this.graph.width - titleMetrics.width) / 2,
-			this.config['general']['titleFontSize']);
+			this.config['general']['title'],	// Text
+			(this.graph.width - titleMetrics.width) / 2,	// x
+			this.config['general']['titleFontSize']);	// y
 		this.context.restore();
 
-		// Add a Y axis title
+		/*
+		* Add a Y axis title
+		*/
 		this.context.save();
 		var yAxisTitleMetrics = this.context.measureText(this.config['general']['yAxisTitle']);
 		this.context.font = 'bold ' + this.config['general']['yAxisFontSize'] + ' pt arial';
-		this.context.fillStyle = "#ffffff";
+		this.context.fillStyle = this.config['general']['yAxisFontColor'];
 		this.context.fillText(
 			this.config['general']['yAxisTitle'],
 			this.graph.width + yAxisTitleMetrics.width + 40,
 			this.canvas.height - (this.graph.height / 2));
 		this.context.restore();
 
-		// Add Y axis ticks
+		/*
+		* Add Y axis ticks
+		*/
 		this.context.save();
-		this.context.font = 'bold ' + this.config['general']['yAxisTicksFontSize'] + ' pt arial';
-		this.context.fillStyle = "#ffffff";
+		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + ' pt arial';
+		this.context.fillStyle = this.config['general']['yAxisFontColor'];
 		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
 			this.context.fillText(
-				Math.round((this.graph.height * this.graph.scale / this.config['general']['yAxisNumTicks']) * i),
-				this.graph.width + 5,
-				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i);
+				Math.round((this.graph.height * this.graph.scale / this.config['general']['yAxisNumTicks']) * i), // Tick text
+				this.graph.width + 5, // x
+				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
 		}
 		this.context.restore();
 
@@ -204,8 +222,10 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 		// Add the last data point to the data list
 		if (!this.first) {
-			this.updatedBarData.splice(0, 1);
-			this.updatedBarData.push(this.nextValue);
+			this.updatedBarData.splice(0, 1); // Remove first item in array
+			this.updatedBarData.push(this.nextValue); // Add next value to array
+
+			// Reset the nextValue if we are not counting incrementally
 			if (!this.incrementalValues) {
 				this.nextValue = 0;
 			}
@@ -215,10 +235,10 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 		// Update the incoming data to match the graph
 		if (this.updatedBarData.length > numBars + 1) {
-			while (this.updatedBarData.length > numBars) {
+			while (this.updatedBarData.length > numBars) { // Remove data until the array has a proper length
 				this.updatedBarData.splice(0, 1);
 			}
-		} else if (this.updatedBarData.length <= numBars) {
+		} else if (this.updatedBarData.length <= numBars) { // Add zeros until the array has a proper length
 			while (this.updatedBarData.length <= numBars) {
 				this.updatedBarData.push(0); // Add 0 to the data
 			}
@@ -229,20 +249,19 @@ var ElliotMovingBarGraph = Elliot.extend({
 		var currentBar = numBars;
 		i = 0;
 		for (var x = this.graph.x; x < this.graph.width - this.barSpacing; x += this.barSpacing + this.barWidth) {
-			// Draw the rectangle
+			// Background bar
 			if (currentBar % this.config['barGraph']['markerPosition'] - this.offset === 0) {
 				this.context.fillStyle = this.config['barGraph']['markerColor'];
 			} else {
 				this.context.fillStyle = this.config['barGraph']['barBackgroundColor'];
 			}
-
 			this.context.fillRect(
 				x + this.barSpacing,
 				this.graph.y,
 				this.barWidth,
 				this.graph.height);
 
-			// Add bottom line
+			// Add bottom line (the bottom 1 pixel)
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
 				x + this.barSpacing,
@@ -252,8 +271,8 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 			// Scaling logic
 			if (this.updatedBarData[i] > 0) {
+				// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
 				if (this.graph.scale < Math.round((this.updatedBarData[i] / (this.graph.height * 0.9)) + 0.6)) {
-					this.logDebug(this.updatedBarData[i] + "/" + this.graph.height);
 					this.graph.scale = Math.round((this.updatedBarData[i] / (this.graph.height * 0.9)) + 0.6);
 					this.logDebug("Scale changed to " + this.graph.scale);
 				}
