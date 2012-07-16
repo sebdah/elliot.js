@@ -198,7 +198,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.fillStyle = this.config['general']['yAxisFontColor'];
 		this.context.fillText(
 			this.config['general']['yAxisTitle'],
-			this.graph.width + yAxisTitleMetrics.width + 40,
+			this.canvas.width - yAxisTitleMetrics.width * 1.8,
 			this.canvas.height - (this.graph.height / 2));
 		this.context.restore();
 
