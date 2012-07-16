@@ -243,6 +243,9 @@ var ElliotMovingBarGraph = Elliot.extend({
 			}
 			this.logDebug("Scale changed to " + this.graph.scale);
 		}
+		if (this.graph.minValue < 1) {
+			minValue = 0;
+		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
 		this.graph.maxValue = maxValue * 1.1;
 		this.graph.minValue = minValue * 0.9;
@@ -277,6 +280,14 @@ var ElliotMovingBarGraph = Elliot.extend({
 		var currentBar = numBars;
 		i = 0;
 		for (var x = this.graph.x; x < this.graph.width - this.barSpacing; x += this.barSpacing + this.barWidth) {
+			// We do not handle negative numbers
+			var val = 0;
+			if (this.updatedBarData[i] < 0) {
+				this.updatedBarData[i] = 0;
+			} else {
+				val = this.updatedBarData[i];
+			}
+
 			// Background bar
 			if (currentBar % this.config['barGraph']['markerPosition'] - this.offset === 0) {
 				this.context.fillStyle = this.config['barGraph']['markerColor'];
