@@ -194,7 +194,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		this.context.fillText(
 			this.config['general']['title'],	// Text
 			(this.graph.width - titleMetrics.width) / 2,	// x
-			this.config['general']['titleFontSize']);	// y
+			this.config['general']['titleFontSize'] + 3);	// y
 		this.context.restore();
 
 		/*
