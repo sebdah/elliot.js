@@ -81,12 +81,20 @@ var Elliot = Class.extend({
 		// Graph config object
 		this.graph = {};
 
+
+		// Set log level
+		this.logLevel = 0;
+		if (this.config['general']['logLevel'] === 'DEBUG') { this.logLevel = 4; }
+		if (this.config['general']['logLevel'] === 'INFO') { this.logLevel = 3; }
+		if (this.config['general']['logLevel'] === 'WARNING') { this.logLevel = 2; }
+		if (this.config['general']['logLevel'] === 'ERROR') { this.logLevel = 1; }
+
 		// Check that the user has defined width and height on the canvas
 		if (isNaN(this.canvas.width) || isNaN(this.canvas.height)) {
 			this.logError('You must set both width and height on your canvas');
 		} else {
 			// Height and width
-			this.graph.width = this.canvas.width - 100;
+			this.graph.width = this.canvas.width - 120;
 			this.graph.height = this.canvas.height - titleBarHeight;
 			this.graph.x = 0;
 			this.graph.y = titleBarHeight;
@@ -94,15 +102,15 @@ var Elliot = Class.extend({
 			// Scaling setting
 			this.graph.scale = 1;
 
-			this.logDebug('Canvas dimensions set to ' + this.canvas.width + 'x' + this.canvas.height);
-			this.logDebug('Graph dimensions set to ' + this.graph.width + 'x' + this.graph.height);
-			this.logDebug('Graph coordinates (' + this.graph.x + ',' + this.graph.y + ')');
+			this.logInfo('Canvas dimensions set to ' + this.canvas.width + 'x' + this.canvas.height);
+			this.logInfo('Graph dimensions set to ' + this.graph.width + 'x' + this.graph.height);
+			this.logInfo('Graph coordinates (' + this.graph.x + ',' + this.graph.y + ')');
 		}
 	},
-	logDebug: function (message) { console.log(this.canvas.id + ' - DEBUG - ' + message); },
-	logError: function (message) { console.log(this.canvas.id + ' - ERROR - ' + message); },
-	logInfo: function (message) { console.log(this.canvas.id + ' - INFO - ' + message); },
-	logWarning: function (message) { console.log(this.canvas.id + ' - WARN - ' + message); },
+	logDebug: function (message) { if (this.logLevel >= 4) { console.log(this.canvas.id + ' - DEBUG - ' + message); } },
+	logInfo: function (message) { if (this.logLevel >= 3) { console.log(this.canvas.id + ' - INFO - ' + message); } },
+	logWarning: function (message) { if (this.logLevel >= 2) { console.log(this.canvas.id + ' - WARNING - ' + message); } },
+	logError: function (message) { if (this.logLevel >= 1) { console.log(this.canvas.id + ' - ERROR - ' + message); } },
 	drawBackground: function () {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.fillStyle = this.config['general']['background'];
@@ -210,6 +218,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		if (!this.first) {
 			this.updatedBarData.splice(0, 1); // Remove first item in array
 			this.updatedBarData.push(this.nextValue); // Add next value to array
+			this.logDebug('Added value to graph: ' + this.nextValue);
 
 			// Reset the nextValue if we are not counting incrementally
 			if (!this.incrementalValues) {
@@ -310,7 +319,6 @@ var ElliotMovingBarGraph = Elliot.extend({
 
 			// Add data rect
 			var point = this.graph.height - ((this.graph.height / (this.graph.maxValue - this.graph.minValue)) * (this.graph.maxValue - this.updatedBarData[i]));
-
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
 				x + this.barSpacing,
