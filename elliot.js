@@ -189,7 +189,7 @@ var ElliotBarGraph = Elliot.extend({
 		*/
 		this.context.save();
 		var titleMetrics = this.context.measureText(this.config['general']['title']); // Measure the size of the text object
-		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + 'pt Nobile';
+		this.context.font = 'bold ' + this.config['general']['titleFontSize'] + 'pt ' + this.config['general']['titleFont'];
 		this.context.fillStyle = this.config['general']['titleFontColor'];
 		this.context.fillText(
 			this.config['general']['title'],	// Text
@@ -202,7 +202,7 @@ var ElliotBarGraph = Elliot.extend({
 		*/
 		this.context.save();
 		var yAxisTitleMetrics = this.context.measureText(this.config['general']['yAxisTitle']);
-		this.context.font = 'bold ' + this.config['general']['yAxisFontSize'] + 'pt Nobile';
+		this.context.font = 'bold ' + this.config['general']['yAxisFontSize'] + 'pt ' + this.config['general']['yAxisFont'];
 		this.context.fillStyle = this.config['general']['yAxisFontColor'];
 		this.context.fillText(
 			this.config['general']['yAxisTitle'],
@@ -263,7 +263,7 @@ var ElliotBarGraph = Elliot.extend({
 		* Add Y axis ticks
 		*/
 		this.context.save();
-		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + 'pt Nobile';
+		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + 'pt ' + this.config['general']['yAxisFont'];
 		this.context.fillStyle = this.config['general']['yAxisFontColor'];
 		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
 			if (i === 0) {
