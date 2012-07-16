@@ -202,21 +202,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 			this.canvas.height - (this.graph.height / 2));
 		this.context.restore();
 
-		/*
-		* Add Y axis ticks
-		*/
-		this.context.save();
-		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + ' pt arial';
-		this.context.fillStyle = this.config['general']['yAxisFontColor'];
-		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
-			this.context.fillText(
-				Math.round((this.graph.height * this.graph.scale / this.config['general']['yAxisNumTicks']) * i), // Tick text
-				this.graph.width + 5, // x
-				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
-		}
-		this.context.restore();
-
-
+		
 		// Calculate how many bars we have
 		var numBars = this.graph.width / (this.barSpacing + this.barWidth);
 
@@ -244,7 +230,38 @@ var ElliotMovingBarGraph = Elliot.extend({
 			}
 		}
 
-		// Calculate spacing and bar width
+		/*
+		* Scaling logic
+		*/
+		var maxValue = Math.max.apply(Math, this.updatedBarData);
+		var minValue = Math.min.apply(Math, this.updatedBarData);
+		// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
+		if (this.graph.scale != Math.round((maxValue / (this.graph.height * 0.9)) + 0.6)) {
+			this.graph.scale = Math.round((maxValue / (this.graph.height * 0.9)) + 0.6);
+			if (this.graph.scale < 1) {
+				this.graph.scale = 1;
+			}
+			this.logDebug("Scale changed to " + this.graph.scale);
+		}
+		this.graph.scaledHeight = this.graph.height * this.graph.scale;
+
+		/*
+		* Add Y axis ticks
+		*/
+		this.context.save();
+		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + ' pt arial';
+		this.context.fillStyle = this.config['general']['yAxisFontColor'];
+		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
+			this.context.fillText(
+				Math.round((this.graph.scaledHeight / this.config['general']['yAxisNumTicks']) * i), // Tick text
+				this.graph.width + 5, // x
+				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
+		}
+		this.context.restore();
+
+		/*
+		* Draw all bars
+		*/
 		this.context.save();
 		var currentBar = numBars;
 		i = 0;
@@ -268,15 +285,6 @@ var ElliotMovingBarGraph = Elliot.extend({
 				this.graph.y + this.graph.height - 1,
 				this.barWidth,
 				this.graph.height);
-
-			// Scaling logic
-			if (this.updatedBarData[i] > 0) {
-				// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
-				if (this.graph.scale < Math.round((this.updatedBarData[i] / (this.graph.height * 0.9)) + 0.6)) {
-					this.graph.scale = Math.round((this.updatedBarData[i] / (this.graph.height * 0.9)) + 0.6);
-					this.logDebug("Scale changed to " + this.graph.scale);
-				}
-			}
 
 			// Add data rect
 			this.context.fillStyle = this.config['barGraph']['barColor'];
