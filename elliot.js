@@ -270,12 +270,12 @@ var ElliotMovingBarGraph = Elliot.extend({
 			if (i === 0) {
 				this.context.fillText(
 					Math.round(this.graph.minValue), // Tick text
-					this.graph.width + 5, // x
+					this.graph.width + 6, // x
 					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
 			} else {
 				this.context.fillText(
 					Math.round((((this.graph.maxValue - this.graph.minValue) / this.config['general']['yAxisNumTicks']) * i) + this.graph.minValue), // Tick text
-					this.graph.width + 5, // x
+					this.graph.width + 6, // x
 					this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i); // y
 			}
 		}
