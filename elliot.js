@@ -195,7 +195,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 				Math.round((this.graph.height * this.graph.scale / this.config['general']['yAxisNumTicks']) * i),
 				this.graph.width + 5,
 				this.canvas.height - ((this.graph.height - 5) / this.config['general']['yAxisNumTicks']) * i);
-		};
+		}
 		this.context.restore();
 
 
@@ -227,7 +227,7 @@ var ElliotMovingBarGraph = Elliot.extend({
 		// Calculate spacing and bar width
 		this.context.save();
 		var currentBar = numBars;
-		var i = 0;
+		i = 0;
 		for (var x = this.graph.x; x < this.graph.width - this.barSpacing; x += this.barSpacing + this.barWidth) {
 			// Draw the rectangle
 			if (currentBar % this.config['barGraph']['markerPosition'] - this.offset === 0) {
@@ -237,16 +237,16 @@ var ElliotMovingBarGraph = Elliot.extend({
 			}
 
 			this.context.fillRect(
-				x + this.barSpacing, 
+				x + this.barSpacing,
 				this.graph.y,
-				this.barWidth, 
+				this.barWidth,
 				this.graph.height);
 
 			// Add bottom line
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
 				x + this.barSpacing,
-			 	this.graph.y + this.graph.height - 1,
+				this.graph.y + this.graph.height - 1,
 				this.barWidth,
 				this.graph.height);
 
@@ -262,9 +262,9 @@ var ElliotMovingBarGraph = Elliot.extend({
 			// Add data rect
 			this.context.fillStyle = this.config['barGraph']['barColor'];
 			this.context.fillRect(
-				x + this.barSpacing, 
+				x + this.barSpacing,
 				this.graph.y + this.graph.height - (this.updatedBarData[i] / this.graph.scale),
-				this.barWidth, 
+				this.barWidth,
 				this.graph.height);
 
 			// Back one bar every time
@@ -286,5 +286,5 @@ var ElliotMovingBarGraph = Elliot.extend({
 		} else {
 			this.nextValue -= count;
 		}
-	},
+	}
 });
