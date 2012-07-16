@@ -68,7 +68,7 @@
       'yAxisFontColor': '#ffffff', // Y axis font color
       'yAxisNumTicks': 7, // How many ticks should be shown
       'yAxisTickFontSize': 8, // Y axis tick font size
-      'logLevel': '', // Set log level (DEBUG, INFO, WARNING, ERROR). Defaults to no logging.
+      'logLevel': 'DEBUG', // Set log level (DEBUG, INFO, WARNING, ERROR). Defaults to no logging.
     },
     'barGraph': {
       'markerPosition': 0, // Show marker every n bars. Set to 0 to turn markers off
@@ -142,9 +142,16 @@
     elliot1.add(Math.floor((Math.random()*8)+1));
   }, Math.floor((Math.random()*40)+1));
 
-  // Add data to the graph
+  /* Add data to the graph
   var elliot2 = new ElliotBarGraph('mycanvas2', config2);
   elliot2.add(Math.floor(25000));
+  var dataInterval2 = setInterval(function () {
+    elliot2.add(Math.floor((Math.random()*2200)+1));
+    elliot2.remove(Math.floor((Math.random()*1500)+1));
+  }, 1000);*/
+
+  var elliot2 = new ElliotBarGraph('mycanvas2', config2);
+  elliot2.add(Math.floor(2500000));
   var dataInterval2 = setInterval(function () {
     elliot2.add(Math.floor((Math.random()*2200)+1));
     elliot2.remove(Math.floor((Math.random()*1500)+1));

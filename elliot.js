@@ -253,7 +253,20 @@ var ElliotBarGraph = Elliot.extend({
 		* Scaling logic
 		*/
 		var maxValue = Math.max.apply(Math, this.updatedBarData);
-		var minValue = Math.min.apply(Math, this.updatedBarData);
+		var tempArr = this.updatedBarData;
+		var minValue = NaN;
+		for (var i = this.updatedBarData.length - 1; i >= 0; i--) {
+			if (isNaN(minValue)) {
+				minValue = this.updatedBarData[i];
+			}
+			if (this.updatedBarData[i] !== 0) {
+				if (this.updatedBarData[i] < minValue) {
+					minValue = this.updatedBarData[i];
+				}
+			}
+		}
+
+
 		// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
 		if (this.graph.scale != Math.round((maxValue / (this.graph.height * 0.9)) + 0.6)) {
 			this.graph.scale = Math.round((maxValue / (this.graph.height * 0.9)) + 0.6);
@@ -266,8 +279,12 @@ var ElliotBarGraph = Elliot.extend({
 			minValue = 0;
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
-		this.graph.maxValue = maxValue * 1.1;
-		this.graph.minValue = minValue * 0.8;
+		this.graph.maxValue = maxValue;
+		this.graph.minValue = minValue;
+		// Add some padding if the minValue is zero
+		if (this.graph.minValue === 0){
+			this.graph.maxValue = maxValue * 1.1;
+		}
 
 		/*
 		* Add Y axis ticks
@@ -275,7 +292,7 @@ var ElliotBarGraph = Elliot.extend({
 		this.context.save();
 		this.context.font = 'bold ' + this.config['general']['yAxisTickFontSize'] + 'pt ' + this.config['general']['yAxisFont'];
 		this.context.fillStyle = this.config['general']['yAxisFontColor'];
-		for (var i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
+		for (i = 0; i <= this.config['general']['yAxisNumTicks']; i++) {
 			if (i === 0) {
 				this.context.fillText(
 					Math.round(this.graph.minValue), // Tick text
