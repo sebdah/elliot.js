@@ -338,7 +338,9 @@ var ElliotBarGraph = Elliot.extend({
 				this.graph.height);
 
 			// Add bottom line (the bottom 1 pixel)
-			this.context.fillStyle = this.config['barGraph']['barColor'];
+			if (this.config['barGraph']['barColor'] !== 'transparent') {
+				this.context.fillStyle = this.config['barGraph']['barColor'];
+			}
 			this.context.fillRect(
 				x + this.config['barGraph']['barSpacing'],
 				this.graph.y + this.graph.height - 1,
