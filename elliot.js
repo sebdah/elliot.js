@@ -269,7 +269,6 @@ var ElliotBarGraph = Elliot.extend({
 			}
 		}
 
-
 		// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
 		if (this.graph.scale != Math.round((maxValue / (this.graph.height * 0.9)) + 0.6)) {
 			this.graph.scale = Math.round((maxValue / (this.graph.height * 0.9)) + 0.6);
@@ -282,8 +281,11 @@ var ElliotBarGraph = Elliot.extend({
 			minValue = 0;
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
-		this.graph.maxValue = maxValue;
-		this.graph.minValue = minValue;
+		this.graph.maxValue = maxValue + ((maxValue - minValue) * 0.1);
+		this.graph.minValue = minValue - ((maxValue - minValue) * 0.1);
+		if (this.graph.minValue < 0 ) {
+			this.graph.minValue = 0;
+		}
 		// Add some padding if the minValue is zero
 		if (this.graph.minValue === 0){
 			this.graph.maxValue = maxValue * 1.1;
