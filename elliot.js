@@ -128,7 +128,7 @@ var Elliot = Class.extend({
 	drawBackground: function () {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.context.fillStyle = this.config['general']['background'];
-		this.context.fillRect(0, 0, this.graph.width, this.graph.height);
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 });
 
