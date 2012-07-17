@@ -127,8 +127,11 @@ var Elliot = Class.extend({
 	logError: function (message) { if (this.logLevel >= 1) { console.log(this.canvas.id + ' - ERROR - ' + message); } },
 	drawBackground: function () {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.context.fillStyle = this.config['general']['background'];
-		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		
+		if (this.config['general']['background'] !== 'transparent') {
+			this.context.fillStyle = this.config['general']['background'];
+			this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		}
 	}
 });
 
