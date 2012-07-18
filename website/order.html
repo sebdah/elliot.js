@@ -1,0 +1,138 @@
+<html>
+<head>
+  <title>{elliot.js}</title>
+  <link href='http://fonts.googleapis.com/css?family=Nobile:400,700' rel='stylesheet' type='text/css'>
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript">
+  function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value.replace(/\+/g, ' ');
+    });
+    return vars;
+  }
+
+  var params = getUrlVars();
+
+  $().ready(function () {
+    $('input#license').attr('value', params['license']);
+    $('span#license').html(params['license']);
+
+    $('input#price').attr('value', params['price']);
+    $('span#price').html(params['price']);
+  });
+  </script>
+</head>
+<body><a name="top"></a>
+
+  <section class='main'>
+
+    <header>
+      <span class="elliot" onclick='location.href="index.html";'>{elliot.js}</span> <span style="font-size: 0.5em">near real time graphing</span>
+    </header>
+
+    <nav>
+
+      <a href="index.html#introduction">Introduction</a> | 
+      <a href="index.html#usage">Usage</a> | 
+      <a href="index.html#examples">Examples</a> | 
+      <a href="index.html#pricing">Pricing</a> | 
+      <a href="index.html#contact">Contact us</a>
+
+    </nav>
+
+    <article>
+
+      <h1>Order your {elliot.js} license</h1>
+
+      <p>
+        You are about to order a <strong><span id='license'></span></strong> of 
+        <span class="elliot">{elliot.js}</span> graphing library. Please complete
+        the form below, all fields are mandatory. We will process your request as
+        soon as possible and send you an e-mail as well as a payment request from
+        Paypal. You can pay using MasterCard or VISA.
+      </p>
+
+      <p>
+        Do I need to wait for my license before I can start using <span class="elliot">{elliot.js}</span>?
+        No, you can start implementing right away. Just grab your copy of <span class="elliot">{elliot.js}</span>
+        from the webpage. As soon as the payment is completed you will recieve your licens and you can then
+        go a head and deploy <span class="elliot">{elliot.js}</span> to your production environment.
+      </p>
+
+      <p>
+        Along with your license is also the URL to the hosted versions of <span class="elliot">{elliot.js}</span>.
+        Those versions are hosted on a Content Delivery Network which you - as a <span class="elliot">{elliot.js}</span>
+        license holder - is free to use.
+      </p>
+
+      <form action="mailto:sebastian.dahlgren@gmail.com" method="post" enctype="text/plain" >
+        <table>
+          <tr>
+            <th><strong>Company name</strong></th>
+            <td><input type="text" name="company"></td>
+          </tr>
+          <tr>
+            <th><strong>Company website</strong></th>
+            <td><input type="text" name="company_website"></td>
+          </tr>
+          <tr>
+            <th><strong>Contact person</strong></th>
+            <td><input type="text" name="contact_person"></td>
+          </tr>
+          <tr>
+            <th><strong>Contact e-mail</strong></th>
+            <td><input type="text" name="contact_email"></td>
+          </tr>
+          <tr>
+            <th><strong>Licence type</strong></th>
+            <td>
+              <span id='license'></span>
+              <input id='license' type="hidden" name="license" value="">
+            </td>
+          </tr>
+          <tr>
+            <th><strong>Price</strong></th>
+            <td>
+              <span id='price'></span>
+              <input id='price' type="hidden" name="price" value="">
+            </td>
+          </tr>
+          <tr>
+            <th><strong>Preferred currency</strong></th>
+            <td>
+              <input type='radio' name='currency' value='EUR' checked='checked'>EUR<br />
+              <input type='radio' name='currency' value='USD'>USD
+            </td>
+          </tr>
+          <tr>
+            <th><strong>Comment</strong></th>
+            <td>
+              <textarea cols='40' rows='8' name='comment'></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td colspan='2' style='text-align: center;'>
+              <input type="submit" name="submit" value="Submit order">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+      <p>
+        <strong>Note!</strong> The form below will open your e-mail client for sending the e-mail. Nothing
+        is wrong, please bare with us. This page is written with HTML and JavaScript only.
+      </p>
+    
+    </article>
+    
+    <footer>
+      Copyright 2012 Sebastian Dahlgren.<br />
+      <span class="elliot">{elliot.js}</span> is a product of <a href="http://github.com/sebdah">@sebdah</a>.
+    </footer>
+
+  </section>  
+
+</body>
+</html>

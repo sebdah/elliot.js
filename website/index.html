@@ -4,109 +4,23 @@
   <link href='http://fonts.googleapis.com/css?family=Nobile:400,700' rel='stylesheet' type='text/css'>
   <link href="js/syntaxhighlighter_3.0.83/styles/shThemeBlackboard.css" rel="stylesheet" type="text/css" />
   <link href="js/syntaxhighlighter_3.0.83/styles/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
   <script src="js/syntaxhighlighter_3.0.83/scripts/shCore.js" type="text/javascript"></script>
   <script src="js/syntaxhighlighter_3.0.83/scripts/shAutoloader.js" type="text/javascript"></script>
   <script src="js/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js" type="text/javascript"></script>
   <script type='text/javascript' src='js/elliot.js'></script>
-  <style type='text/css'>
-  body {
-    background: #2F2C2B;
-    color: #f0f0f0;
-    font-family: 'Nobile';
-  }
-  a:active,
-  a:link,
-  a:visited {
-    color: #ffffff;
-    padding: 2px;
-    
-    text-decoration: none;
-    font-weight: bold;
-  }
-  a:hover, a:focus {
-    background: #777777;
-    color: #ffffff;
-    padding: 2px;
-    border-bottom: none;
-    text-decoration: none;
-  }
-  header {
-    width: 700px;
-    font-family: 'Nobile';
-    font-weight: bold;
-    font-size: 2.5em;
-    padding: 5px;
-  }
-  section.main {
-    margin-right: 30%;
-    margin-left: 30%;
-    width: 700px;
-  }
-  footer {
-    height: 100px;
-    width: 700px;
-    padding: 10px;
-    border-top: solid thin #777777;
-    margin-bottom: 800px;
-    text-align: center;
-  }
-  article {
-    margin-bottom: 100px;
-  }
-  p {
-    margin-bottom: 30px;
-  }
-  h1 {
-    background: #777777;
-    padding-top: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-bottom: solid thin #ffffff;
-  }
-  nav {
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-  table {
-    width: 100%;
-  }
-  th {
-    text-align: left;
-    font-weight: normal;
-    vertical-align: top;
-    background: #444444;
-    padding: 5px;
-  }
-  td {
-    text-align: right;
-    vertical-align: top;
-    width: 30%;
-    background: #444444;
-    padding: 5px;
-  }
-  span.elliot {
-    color: #fafc7e;
-    padding: 2px;
-  }
-  tt {
-    font-size: 1.2em;
-    font-weight: bold;
-    background: #444444;
-    padding: 2px;
-  }
-  </style>
 </head>
 <body><a name="top"></a>
 
   <section class='main'>
 
     <header>
-      <span class="elliot">{elliot.js}</span> <span style="font-size: 0.5em">near real time graphing</span>
+      <span class="elliot" onclick='location.href="index.html";'>{elliot.js}</span> <span style="font-size: 0.5em">near real time graphing</span>
     </header>
 
     <nav>
 
-      <a href="#introduction">Introduction</a> | 
+      <a href="#about">About {elliot.js}</a> | 
       <a href="#usage">Usage</a> | 
       <a href="#examples">Examples</a> | 
       <a href="#pricing">Pricing</a> | 
@@ -114,9 +28,9 @@
 
     </nav>
 
-    <article><a name='introduction'></a>
+    <article><a name='about'></a>
 
-      <h1>Introduction</h1>
+      <h1>About {elliot.js}</h1>
 
       <p>
         <span class="elliot">{elliot.js}</span> was created to fill a need for graphing near real time events in various web 
@@ -135,6 +49,13 @@
         evaluations purposes. If you are using <span class="elliot">{elliot.js}</span> for commercial purposes, please
         refer to the <a href="#pricing">pricing</a> section for more details.
       </p>
+
+      <p>
+        <span class="elliot">{elliot.js}</span> relies on the HTML 5 <tt>&lt;canvas&gt;</tt> and regular JavaScript.
+        It is widely supported, both on mobile platforms and desktop browsers. Have a look at 
+        <a href="http://caniuse.com/#feat=canvas">http://caniuse.com/#feat=canvas</a> for more detailed information
+        about <tt>&lt;canvas&gt;</tt> browser support.
+      </p>
     
     </article>
     
@@ -148,7 +69,7 @@
       </p>
 
       <pre class="brush: js">
-        &lt;canvas width='700' height='200'&gt;
+        &lt;canvas id='myCanvas' width='700' height='200'&gt;
           Text shown to browsers that does not support HTML5
         &lt;/canvas&gt;
 
@@ -184,13 +105,13 @@
       </pre>
 
       <p>
-        As you might have noticed. We initiate elliot.js by calling <tt>Elliot()</tt> which takes
-        two arguments; canvas tag id and a configuration object. The next thing we need to
-        do is to add data to the graph. This is done with a simple JavaScript call to 
+        As you might have noticed. We initiate <span class="elliot">{elliot.js}</span> 
+        by calling <tt>Elliot()</tt> which takes two arguments; canvas tag id and a configuration object. 
+        The next thing we need to do is to add data to the graph. This is done with a simple JavaScript call to 
         <tt>elliot.add(float)</tt> or <tt>elliot.remove(float)</tt>. In the configuration above, we set 
-        <tt>incrementalValues</tt> to <tt>true</tt>, which means that <span class="elliot">{elliot.js}</span> will keep track of the
-        current value all the time and all you need to do is to adjust it with the <tt>add()</tt> and 
-        <tt>remove</tt> functions. Here's an example:
+        <tt>incrementalValues</tt> to <tt>true</tt>, which means that <span class="elliot">{elliot.js}</span> 
+        will keep track of the current value all the time and all you need to do is to adjust it 
+        with the <tt>add()</tt> and <tt>remove</tt> functions. Here's an example:
       </p>
 
       <pre class="brush: js">
@@ -250,36 +171,77 @@
       <tr>
         <th>
           <strong><u>Single web page license</u></strong><br />
-          For single simple web pages that is not considered a web application.
+          <ul>
+            <li>For single simple web pages that is not considered a web application</li>
+            <li>A hosted version of <span class="elliot">{elliot.js}</span> in our CDN is included</li>
+            <li>You will get full access to the code</li>
+          </ul>
         </th>
-        <td>50 USD / 40 EUR</td>
+        <td>50&nbsp;USD&nbsp;/&nbsp;40&nbsp;EUR</td>
+        <td>
+          <form action="order.html" method="get">
+            <input type='hidden' name='license' value='Single web page license'>
+            <input type='hidden' name='price' value='50 USD or 40 EUR'>
+            <input type='submit' value='Order license'>
+          </form>
+        </td>
       </tr>
       <tr>
         <th>
           <strong><u>Single developer license</u></strong><br />
-          Allows one developer* within the company to work with <span class="elliot">{elliot.js}</span>.
-          <br /><br />
-          You can use <span class="elliot">{elliot.js}</span> in as many applications as you want.
+          <ul>
+            <li>Allows one developer* within the company to work with <span class="elliot">{elliot.js}</span></li>
+            <li>You can use <span class="elliot">{elliot.js}</span> in as many applications as you want</li>
+            <li>A hosted version of <span class="elliot">{elliot.js}</span> in our CDN is included</li>
+            <li>And you will get full access to the code</li>
+          </ul>
         </th>
-        <td>150 USD / 120 EUR</td>
+        <td>150&nbsp;USD&nbsp;/&nbsp;120&nbsp;EUR</td>
+        <td>
+          <form action="order.html" method="get">
+            <input type='hidden' name='license' value='Single developer license'>
+            <input type='hidden' name='price' value='150 USD or 120 EUR'>
+            <input type='submit' value='Order license'>
+          </form>
+        </td>
       </tr>
       <tr>
         <th>
           <strong><u>5 developer license</u></strong><br />
-          Allows up to 5 developers* within the company to work with <span class="elliot">{elliot.js}</span>.
-          <br /><br />
-          You can use <span class="elliot">{elliot.js}</span> in as many applications as you want.
+          <ul>
+            <li>Allows up to 5 developers* within the company to work with <span class="elliot">{elliot.js}</span></li>
+            <li>You can use <span class="elliot">{elliot.js}</span> in as many applications as you want</li>
+            <li>A hosted version of <span class="elliot">{elliot.js}</span> in our CDN is included</li>
+            <li>And you will get full access to the code</li>
+          </ul>
         </th>
-        <td>450 USD / 360 EUR</td>
+        <td>450&nbsp;USD&nbsp;/&nbsp;360&nbsp;EUR</td>
+        <td>
+          <form action="order.html" method="get">
+            <input type='hidden' name='license' value='5 developer license'>
+            <input type='hidden' name='price' value='450 USD or 360 EUR'>
+            <input type='submit' value='Order license'>
+          </form>
+        </td>
       </tr>
       <tr>
         <th>
           <strong><u>10 developer license</u></strong><br />
-          Allows up to 10 developers* within the company to work with <span class="elliot">{elliot.js}</span>.
-          <br /><br />
-          You can use <span class="elliot">{elliot.js}</span> in as many applications as you want.
+          <ul>
+            <li>Allows up to 10 developers* within the company to work with <span class="elliot">{elliot.js}</span></li>
+            <li>You can use <span class="elliot">{elliot.js}</span> in as many applications as you want</li>
+            <li>A hosted version of <span class="elliot">{elliot.js}</span> in our CDN is included</li>
+            <li>And you will get full access to the code</li>
+          </ul>
         </th>
-        <td>700 USD / 570 EUR</td>
+        <td>700&nbsp;USD&nbsp;/&nbsp;570&nbsp;EUR</td>
+        <td>
+          <form action="order.html" method="get" accept-charset='utf-8'>
+            <input type='hidden' name='license' value='10 developer license'>
+            <input type='hidden' name='price' value='700 USD or 570 EUR'>
+            <input type='submit' value='Order license'>
+          </form>
+        </td>
       </tr>
     </table>
     *) Any one that is directly or indirectly develops an application or user interface containing 
