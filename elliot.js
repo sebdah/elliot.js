@@ -301,12 +301,12 @@ var ElliotBarGraph = Elliot.extend({
 			if (i === 0) {
 				this.context.fillText(
 					Math.round(this.graph.minValue), // Tick text
-					this.graph.width + 6, // x
+					this.graph.width + 3, // x
 					this.canvas.height - 2 - ((this.graph.height) / this.config['general']['yAxisNumTicks']) * i); // y
 			} else {
 				this.context.fillText(
 					Math.round((((this.graph.maxValue - this.graph.minValue) / this.config['general']['yAxisNumTicks']) * i) + this.graph.minValue), // Tick text
-					this.graph.width + 6, // x
+					this.graph.width + 3, // x
 					this.canvas.height - ((this.graph.height) / this.config['general']['yAxisNumTicks']) * i); // y
 			}
 		}
@@ -318,7 +318,7 @@ var ElliotBarGraph = Elliot.extend({
 		this.context.save();
 		var currentBar = numBars;
 		i = 0;
-		for (var x = this.graph.x; x < this.graph.width - this.config['barGraph']['barSpacing']; x += this.config['barGraph']['barSpacing'] + this.config['barGraph']['barWidth']) {
+		for (var x = this.graph.x; x < this.graph.width - this.config['barGraph']['barSpacing'] - this.config['barGraph']['barWidth']; x += this.config['barGraph']['barSpacing'] + this.config['barGraph']['barWidth']) {
 			// We do not handle negative numbers
 			var val = 0;
 			if (this.updatedBarData[i] < 0) {
