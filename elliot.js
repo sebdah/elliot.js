@@ -281,8 +281,8 @@ var ElliotBarGraph = Elliot.extend({
 			minValue = 0;
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
-		this.graph.maxValue = maxValue + ((maxValue - minValue) * 0.1);
-		this.graph.minValue = minValue - ((maxValue - minValue) * 0.1);
+		this.graph.maxValue = maxValue + ((maxValue - minValue) * 0.2);
+		this.graph.minValue = minValue - ((maxValue - minValue) * 0.2);
 		if (this.graph.minValue < 0 ) {
 			this.graph.minValue = 0;
 		}
