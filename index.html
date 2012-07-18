@@ -42,12 +42,12 @@ title: "{elliot.js}"
     the graph "Cars inside the city gates".
   </p>
 
-  <pre class="brush: js">
-    &lt;canvas id='myCanvas' width='700' height='200'&gt;
+  {% highlight html %}
+    <canvas id='myCanvas' width='700' height='200'>
       Text shown to browsers that does not support HTML5
-    &lt;/canvas&gt;
+    </canvas>
 
-    &lt;script type="text/javascript"&gt;
+    <script type="text/javascript">
     var elliot = new Elliot('myCanvas', {
         'general': {
           'background': '#2F2C2B', // Graph background color
@@ -74,9 +74,8 @@ title: "{elliot.js}"
           'barSpacing': 1, // Pixels between the bars
         }
       });
-    &lt;/script&gt;
-
-  </pre>
+    </script>
+  {% endhighlight %}
 
   <p>
     As you might have noticed. We initiate <span class="elliot">{elliot.js}</span> 
@@ -88,16 +87,14 @@ title: "{elliot.js}"
     with the <tt>add()</tt> and <tt>remove</tt> functions. Here's an example:
   </p>
 
-  <pre class="brush: js">
-
+  {% highlight javascript %}
     elliot.add(10);
     elliot.remove(5);
-
-  </pre>
+  {% endhighlight %}
 
   Boring example? Indeed! Let's try to get some continuous data inserted into <span class="elliot">{elliot.js}</span>.
 
-  <pre class="brush: js">
+  {% highlight javascript %}
     // Add some initial data before the loop
     elliot.add(Math.floor(2500000));
 
@@ -110,8 +107,7 @@ title: "{elliot.js}"
       // likely to be smaller than the data added)
       elliot.remove(Math.floor((Math.random()*1500)+1));
     }, 1000);
-
-  </pre>
+  {% endhighlight %}
 
 </article>
 

@@ -83,3 +83,6 @@ tt {
 input[type='text'] {
   width: 250px;
 }
+.highlight {
+  font-size: 1.2em;
+}
