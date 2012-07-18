@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>{{page.title}}</title>
+  <title>{elliot.js}</title>
   <link href='http://fonts.googleapis.com/css?family=Nobile:400,700' rel='stylesheet' type='text/css'>
   <link href="js/syntaxhighlighter_3.0.83/styles/shThemeBlackboard.css" rel="stylesheet" type="text/css" />
   <link href="js/syntaxhighlighter_3.0.83/styles/shCore.css" rel="stylesheet" type="text/css" />
@@ -74,15 +74,25 @@
     text-align: left;
     font-weight: normal;
     vertical-align: top;
-    background: #444;
+    background: #444444;
     padding: 5px;
   }
   td {
     text-align: right;
     vertical-align: top;
     width: 30%;
-    background: #444;
+    background: #444444;
     padding: 5px;
+  }
+  span.elliot {
+    color: #fafc7e;
+    padding: 2px;
+  }
+  tt {
+    font-size: 1.2em;
+    font-weight: bold;
+    background: #444444;
+    padding: 2px;
   }
   </style>
 </head>
@@ -91,7 +101,7 @@
   <section class='main'>
 
     <header>
-      {elliot.js} <span style="font-size: 0.5em">near real time graphing</span>
+      <span class="elliot">{elliot.js}</span> <span style="font-size: 0.5em">near real time graphing</span>
     </header>
 
     <nav>
@@ -109,20 +119,20 @@
       <h1>Introduction</h1>
 
       <p>
-        {elliot.js} was created to fill a need for graphing near real time events in various web 
+        <span class="elliot">{elliot.js}</span> was created to fill a need for graphing near real time events in various web 
         projects. It has been used to produce graphs for log analytics, customer actions, monitoring
         and similar services.
       </p>
 
       <p>
-        {elliot.js} is highly configurable. You can easily change 
+        Special needs? <span class="elliot">{elliot.js}</span> is highly configurable. You can easily change 
         background colors, bar sizes, colors, fonts, update frequenzy etc. Have a look at our
         examples for some inspiration.
       </p>
 
       <p>
-        You are free to use {elliot.js} in your open source projects, for educational or 
-        evaluations purposes. If you are using {elliot.js} for commercial purposes, please
+        You are free to use <span class="elliot">{elliot.js}</span> in your open source projects, for educational or 
+        evaluations purposes. If you are using <span class="elliot">{elliot.js}</span> for commercial purposes, please
         refer to the <a href="#pricing">pricing</a> section for more details.
       </p>
     
@@ -133,7 +143,7 @@
       <h1>Usage</h1>
 
       <p>
-        It is dead simple to integrate {elliot.js} into your applications. Here's code for 
+        It is dead simple to integrate <span class="elliot">{elliot.js}</span> into your applications. Here's code for 
         the graph "Cars inside the city gates".
       </p>
 
@@ -178,7 +188,7 @@
         two arguments; canvas tag id and a configuration object. The next thing we need to
         do is to add data to the graph. This is done with a simple JavaScript call to 
         <tt>elliot.add(float)</tt> or <tt>elliot.remove(float)</tt>. In the configuration above, we set 
-        <tt>incrementalValues</tt> to <tt>true</tt>, which means that {elliot.js} will keep track of the
+        <tt>incrementalValues</tt> to <tt>true</tt>, which means that <span class="elliot">{elliot.js}</span> will keep track of the
         current value all the time and all you need to do is to adjust it with the <tt>add()</tt> and 
         <tt>remove</tt> functions. Here's an example:
       </p>
@@ -190,7 +200,7 @@
 
       </pre>
 
-      Boring example? Indeed! Let's try to get some continuous data inserted into {elliot.js}.
+      Boring example? Indeed! Let's try to get some continuous data inserted into <span class="elliot">{elliot.js}</span>.
 
       <pre class="brush: js">
         // Add some initial data before the loop
@@ -226,13 +236,13 @@
     <h1>Pricing</h1>
 
     <p>
-      {elliot.js} is free to use for open source projects, educational purposes or
+      <span class="elliot">{elliot.js}</span> is free to use for open source projects, educational purposes or
       for evaluation. However if you intend to use it for commercial purposes, find
       the pricing details below.
     </p>
 
     <p>
-      If you are purchasing an commercial license for {elliot.js} you will also get
+      If you are purchasing an commercial license for <span class="elliot">{elliot.js}</span> you will also get
       access to our hosted version distributed via a Content Delivery Network.
     </p>
 
@@ -247,37 +257,33 @@
       <tr>
         <th>
           <strong><u>Single developer license</u></strong><br />
-          Allows one developer within the company to work with {elliot.js}. Any one
-          that is directly or indirectly develops an application or user interface containing 
-          {elliot.js} is considered a developer.
+          Allows one developer* within the company to work with <span class="elliot">{elliot.js}</span>.
           <br /><br />
-          You can use {elliot.js} in as many applications as you want.
+          You can use <span class="elliot">{elliot.js}</span> in as many applications as you want.
         </th>
         <td>150 USD / 120 EUR</td>
       </tr>
       <tr>
         <th>
           <strong><u>5 developer license</u></strong><br />
-          Allows up to 5 developers within the company to work with {elliot.js}. Any one
-          that is directly or indirectly develops an application or user interface containing 
-          {elliot.js} is considered a developer.
+          Allows up to 5 developers* within the company to work with <span class="elliot">{elliot.js}</span>.
           <br /><br />
-          You can use {elliot.js} in as many applications as you want.
+          You can use <span class="elliot">{elliot.js}</span> in as many applications as you want.
         </th>
         <td>450 USD / 360 EUR</td>
       </tr>
       <tr>
         <th>
           <strong><u>10 developer license</u></strong><br />
-          Allows up to 10 developers within the company to work with {elliot.js}. Any one
-          that is directly or indirectly develops an application or user interface containing 
-          {elliot.js} is considered a developer.
+          Allows up to 10 developers* within the company to work with <span class="elliot">{elliot.js}</span>.
           <br /><br />
-          You can use {elliot.js} in as many applications as you want.
+          You can use <span class="elliot">{elliot.js}</span> in as many applications as you want.
         </th>
         <td>700 USD / 570 EUR</td>
       </tr>
     </table>
+    *) Any one that is directly or indirectly develops an application or user interface containing 
+    <span class="elliot">{elliot.js}</span> is considered a developer.
 
     <p>
       Do you have other needs or licensing proposals? Please <a href="#contact">contact us</a>.
@@ -300,16 +306,12 @@
 
   </article>
 
-  <aside>
-
     <footer>
       Copyright 2012 Sebastian Dahlgren.<br />
-      {elliot.js} is a product of <a href="http://github.com/sebdah">@sebdah</a>.
+      <span class="elliot">{elliot.js}</span> is a product of <a href="http://github.com/sebdah">@sebdah</a>.
     </footer>
 
   </section>  
-  
-  </aside>
 
 </body>
 
