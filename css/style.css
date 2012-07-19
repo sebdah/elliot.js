@@ -27,7 +27,7 @@ header {
   padding: 5px;
 }
 section.main {
-  margin-right: 30%;
+  
   margin-left: 30%;
   width: 700px;
 }
@@ -69,6 +69,9 @@ th {
 td {
   background: #444444;
   padding: 5px;
+}
+td a {
+  font-weight: normal !important;
 }
 span.elliot {
   color: #fafc7e;

@@ -312,6 +312,8 @@ var ElliotBarGraph = Elliot.extend({
 		}
 		this.context.restore();
 
+		this.logInfo(this.updatedBarData.length);
+
 		/*
 		* Draw all bars
 		*/
