@@ -40,7 +40,7 @@ footer {
   text-align: center;
 }
 article {
-  margin-bottom: 100px;
+  margin-bottom: 200px;
 }
 p {
   margin-bottom: 30px;
@@ -88,4 +88,7 @@ input[type='text'] {
 }
 .highlight {
   font-size: 1.2em;
+}
+li {
+  padding-bottom: 8px;
 }
