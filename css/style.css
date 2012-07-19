@@ -1,5 +1,8 @@
+* {
+  margin: 0;
+}
 body {
-  background: #2F2C2B;
+  background: #222222;
   color: #f0f0f0;
   font-family: 'Nobile';
 }
@@ -25,22 +28,23 @@ header {
   font-weight: bold;
   font-size: 2.5em;
   padding: 5px;
+  padding-top: 20px;
 }
 section.main {
-  
   margin-left: 30%;
   width: 700px;
+  height: 100%;
 }
 footer {
   height: 100px;
   width: 700px;
   padding: 10px;
-  border-top: solid thin #777777;
+  border-top: solid #777777;
   margin-bottom: 800px;
   text-align: center;
 }
 article {
-  margin-bottom: 200px;
+  margin-bottom: 80px;
 }
 p {
   margin-bottom: 30px;
@@ -51,6 +55,7 @@ h1 {
   padding-left: 5px;
   padding-right: 5px;
   border-bottom: solid thin #ffffff;
+  margin-bottom: 15px;
 }
 nav {
   margin-top: 10px;
@@ -89,6 +94,13 @@ input[type='text'] {
 .highlight {
   font-size: 1.2em;
 }
+ul {
+  margin-top: 20px;
+}
 li {
   padding-bottom: 8px;
+}
+span.menuitem {
+  cursor: pointer;
+  font-weight: bold;
 }

@@ -5,6 +5,26 @@
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <link href="css/pygments/monokai.css" rel="stylesheet" type="text/css" />
   <script type='text/javascript' src='js/elliot.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript">
+  $().ready(function () {
+
+    // Hide all articles
+    $('article').hide();
+    $('footer').hide();
+    $('footer').fadeIn(300);
+
+    // Show the About article
+    $('article#start').fadeIn(300);
+  });
+
+  function fetchArticle (article) {
+    $('article').hide();
+    $('footer').hide();
+    $('article#' + article).fadeIn(300);
+    $('footer').fadeIn(300);
+  }
+  </script>
 </head>
 <body><a name="top"></a>
 
@@ -14,27 +34,29 @@
       <span class="elliot" onclick='location.href="index.html";'>{elliot.js}</span> <span style="font-size: 0.5em">near real time graphing</span>
     </header>
 
+    {% if page.showMenu %}
     <nav>
 
-      <a href="#about">About</a> | 
-      <a href="#features">Features</a> | 
-      <a href="#usage">Usage</a> | 
-      <a href="#examples">Examples</a> | 
-      <a href="#downloads">Downloads</a> | 
-      <a href="#pricing">Pricing</a> | 
-      <a href="#contact">Contact us</a>
+      <span class="menuitem" onclick="fetchArticle('start')">Start</span> | 
+      <span class="menuitem" onclick="fetchArticle('features')">Features</span> | 
+      <span class="menuitem" onclick="fetchArticle('usage')">Usage</span> | 
+      <span class="menuitem" onclick="fetchArticle('examples')">Examples</span> | 
+      <span class="menuitem" onclick="fetchArticle('downloads')">Downloads</span> | 
+      <span class="menuitem" onclick="fetchArticle('pricing')">Pricing</span> | 
+      <span class="menuitem" onclick="fetchArticle('contact')">Contact</span>
 
     </nav>
+    {% endif %}
 
     {{content}}
 
     <footer>
-      Copyright 2012 Sebastian Dahlgren.<br />
-      <span class="elliot">{elliot.js}</span> is a product of <a href="http://github.com/sebdah">@sebdah</a>.
+      Copyright 2012 Sebastian Dahlgren<br />
+      <span class="elliot">{elliot.js}</span> is a product of <a href="http://github.com/sebdah">@sebdah</a>
       <br /><br />
       This page has been built using <a href="https://github.com/mojombo/jekyll/">Jekyll</a>, HTML 5 
-      , <a href="http://pygments.org/">Pygments</a> and JavaScript. It is hosted on
-      <a href="http://pages.github.com/">GitHub Pages</a>.
+      , <a href="http://pygments.org/">Pygments</a> and JavaScript<br />
+      It is hosted on <a href="http://pages.github.com/">GitHub Pages</a>
     </footer>
 
   </section>
@@ -45,7 +67,7 @@
   // Add data to the graph
   var elliot1 = new ElliotBarGraph('mycanvas1', {
     'general': {
-      'background': '#2F2C2B', // Graph background color. Set to 'transparent' for transparency.
+      'background': '#222222', // Graph background color. Set to 'transparent' for transparency.
       'title': 'Requests per second', // Graph title
       'titleFont': 'Nobile', // Font name for the title
       'titleFontSize': 11, // Graph title font size
@@ -75,7 +97,7 @@
 
   var elliot2 = new ElliotBarGraph('mycanvas2', {
     'general': {
-      'background': '#2F2C2B', // Graph background color. Set to 'transparent' for transparency.
+      'background': '#222222', // Graph background color. Set to 'transparent' for transparency.
       'title': 'Cars inside the city gates', // Graph title
       'titleFont': 'Nobile', // Font name for the title
       'titleFontSize': 11, // Graph title font size
@@ -92,7 +114,7 @@
       'markerPosition': 20, // Show marker every n bars. Set to 0 to turn markers off
       'updateFrequency': 500, // How often should the graph be updated, in ms
       'incrementalValues': true, // Should values be incremental?
-      'barBackgroundColor': '#2F2C2B', // Color of the bars (where there is no data). Set to 'transparent' for transparency.
+      'barBackgroundColor': '#222222', // Color of the bars (where there is no data). Set to 'transparent' for transparency.
       'barColor': '#ff6060', // Color of data in the bars
       'markerColor': '#333333', // Color of the marker bars
       'barWidth': 3, // How many px should the bars be
@@ -108,7 +130,7 @@
   // Add data to the graph
   var elliot3 = new ElliotBarGraph('mycanvas3', {
     'general': {
-      'background': '#2F2C2B', // Graph background color. Set to 'transparent' for transparency.
+      'background': '#222222', // Graph background color. Set to 'transparent' for transparency.
       'title': 'Customers entering our stores', // Graph title
       'titleFont': 'Nobile', // Font name for the title
       'titleFontSize': 11, // Graph title font size
@@ -125,7 +147,7 @@
       'markerPosition': 10, // Show marker every n bars. Set to 0 to turn markers off
       'updateFrequency': 700, // How often should the graph be updated, in ms
       'incrementalValues': false, // Should values be incremental?
-      'barBackgroundColor': '#2F2C2B', // Color of the bars (where there is no data). Set to 'transparent' for transparency.
+      'barBackgroundColor': '#222222', // Color of the bars (where there is no data). Set to 'transparent' for transparency.
       'barColor': '#fafc7e', // Color of data in the bars
       'markerColor': '#333333', // Color of the marker bars
       'barWidth': 20, // How many px should the bars be
@@ -139,7 +161,7 @@
   // Add data to the graph
   var elliot4 = new ElliotBarGraph('mycanvas4', {
     'general': {
-      'background': '#2F2C2B', // Graph background color. Set to 'transparent' for transparency.
+      'background': '#222222', // Graph background color. Set to 'transparent' for transparency.
       'title': 'Data files served from AWS S3', // Graph title
       'titleFont': 'Nobile', // Font name for the title
       'titleFontSize': 11, // Graph title font size
@@ -156,7 +178,7 @@
       'markerPosition': 10, // Show marker every n bars. Set to 0 to turn markers off
       'updateFrequency': 50, // How often should the graph be updated, in ms
       'incrementalValues': false, // Should values be incremental?
-      'barBackgroundColor': '#2F2C2B', // Color of the bars (where there is no data). Set to 'transparent' for transparency.
+      'barBackgroundColor': '#222222', // Color of the bars (where there is no data). Set to 'transparent' for transparency.
       'barColor': '#a3ff89', // Color of data in the bars
       'markerColor': '#333333', // Color of the marker bars
       'barWidth': 1, // How many px should the bars be
