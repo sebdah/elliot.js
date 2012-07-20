@@ -31,8 +31,10 @@ header {
   padding-top: 20px;
 }
 section.main {
-  margin-left: 30%;
+  position: absolute;
+  left: 50%;
   width: 700px;
+  margin-left: -350px;
   height: 100%;
 }
 footer {
