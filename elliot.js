@@ -256,7 +256,6 @@ var ElliotBarGraph = Elliot.extend({
 		* Scaling logic
 		*/
 		var maxValue = Math.max.apply(Math, this.updatedBarData);
-		var tempArr = this.updatedBarData;
 		var minValue = NaN;
 		for (var i = this.updatedBarData.length - 1; i >= 0; i--) {
 			if (isNaN(minValue)) {
