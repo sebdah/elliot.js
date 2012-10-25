@@ -1,3 +1,16 @@
+/*
+*
+* elliot.js v0.2.0
+*
+* AUTHOR
+* Sebastian Dahlgren <sebastian.dahlgren@gmail.com>
+*
+* WEB PAGE
+* https://github.com/sebdah/elliot.js
+* http://www.sebastiandahlgren.se
+*/
+
+
 /* Simple JavaScript Inheritance
  * By John Resig http://ejohn.org/
  * MIT Licensed.
@@ -149,10 +162,15 @@ var ElliotBarGraph = Elliot.extend({
 		if (typeof(this.config['barGraph']['markerColor']) === 'undefined') { this.config['barGraph']['markerColor'] = '#777777'; }
 		if (typeof(this.config['barGraph']['barWidth']) === 'undefined') { this.config['barGraph']['barWidth'] = 5; }
 		if (typeof(this.config['barGraph']['barSpacing']) === 'undefined') { this.config['barGraph']['barSpacing'] = 5; }
+		if (typeof(this.config['barGraph']['storeMinValue']) === 'undefined') { this.config['barGraph']['storeMinValue'] = false; }
 
 		// Updated barData
 		this.updatedBarData = [];
 		this.nextValue = 0;
+
+		// Lowest min value (for the whole session)
+		this.minValue = NaN;
+		this.maxValue = NaN;
 
 		// Distinguish the first iteration
 		this.first = true;
@@ -241,31 +259,53 @@ var ElliotBarGraph = Elliot.extend({
 			this.first = false;
 		}
 
+		var minValue = NaN;
+		var maxValue = NaN;
+
 		// Update the incoming data to match the graph
 		if (this.updatedBarData.length > numBars + 1) {
 			while (this.updatedBarData.length > numBars) { // Remove data until the array has a proper length
 				this.updatedBarData.splice(0, 1);
 			}
+			minValue = Math.min.apply(Math, this.updatedBarData);
+			maxValue = Math.max.apply(Math, this.updatedBarData);
 		} else if (this.updatedBarData.length <= numBars) { // Add zeros until the array has a proper length
+			minValue = Math.min.apply(Math, this.updatedBarData);
+			maxValue = Math.max.apply(Math, this.updatedBarData);
 			while (this.updatedBarData.length <= numBars) {
 				this.updatedBarData.push(0); // Add 0 to the data
 			}
+		} else {
+			minValue = Math.min.apply(Math, this.updatedBarData);
+			maxValue = Math.max.apply(Math, this.updatedBarData);
 		}
+		console.log('min: ' + minValue);
+		console.log('max: ' + maxValue);
 
 		/*
 		* Scaling logic
 		*/
-		var maxValue = Math.max.apply(Math, this.updatedBarData);
-		var minValue = NaN;
-		for (var i = this.updatedBarData.length - 1; i >= 0; i--) {
-			if (isNaN(minValue)) {
-				minValue = this.updatedBarData[i];
+		if (this.config['barGraph']['storeMinValue']) {
+			console.log('hit');
+			// Use global minValue if requested
+			if (!isNaN(this.minValue) && this.minValue < minValue) {
+				minValue = this.minValue;
 			}
-			if (this.updatedBarData[i] !== 0) {
-				if (this.updatedBarData[i] < minValue) {
-					minValue = this.updatedBarData[i];
-				}
+			// Use global maxValue if requested
+			if (!isNaN(this.maxValue) && this.maxValue > maxValue) {
+				maxValue = this.maxValue;
 			}
+		}
+
+		// Store the smallest minValue in the global setting
+		if (minValue < this.minValue || isNaN(this.minValue)) {
+			if (minValue > 0) {
+				this.minValue = minValue;
+			}
+		}
+		// Store the largest maxValue in the global setting
+		if (maxValue > this.maxValue || isNaN(this.maxValue)) {
+			this.maxValue = maxValue;
 		}
 
 		// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
@@ -278,6 +318,7 @@ var ElliotBarGraph = Elliot.extend({
 		}
 		if (this.graph.minValue < 0) {
 			minValue = 0;
+			this.minValue = 0;
 		}
 		this.graph.scaledHeight = this.graph.height * this.graph.scale;
 		this.graph.maxValue = maxValue + ((maxValue - minValue) * 0.2);

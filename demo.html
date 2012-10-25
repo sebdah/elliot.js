@@ -24,8 +24,8 @@
 <body bgcolor='#2F2C2B'>
   <span class='header'>{{elliot}}</span> <span class='header-small'>demo</span><br /><br />
   <canvas id="mycanvas1" width='600' height='200'></canvas>
-  <canvas id="mycanvas3" width='600' height='200'></canvas><br /><br /><br />
-  <canvas id="mycanvas2" width='600' height='200'></canvas>
+  <canvas id="mycanvas2" width='600' height='200'></canvas><br /><br />
+  <canvas id="mycanvas3" width='600' height='200'></canvas>
   <canvas id="mycanvas4" width='600' height='200'></canvas>
   <script type="text/javascript">
   var config1 = {
@@ -52,6 +52,7 @@
       'markerColor': '#777777', // Color of the marker bars
       'barWidth': 5, // How many px should the bars be
       'barSpacing': 5, // How many px space should be between the bars
+      'storeMinValue': false,
     }
   }
 
@@ -79,6 +80,7 @@
       'markerColor': '#333333', // Color of the marker bars
       'barWidth': 3, // How many px should the bars be
       'barSpacing': 1, // How many px space should be between the bars
+      'storeMinValue': false,
     }
   }
 
@@ -141,14 +143,6 @@
   var dataInterval = setInterval(function () {
     elliot1.add(Math.floor((Math.random()*8)+1));
   }, Math.floor((Math.random()*40)+1));
-
-  /* Add data to the graph
-  var elliot2 = new ElliotBarGraph('mycanvas2', config2);
-  elliot2.add(Math.floor(25000));
-  var dataInterval2 = setInterval(function () {
-    elliot2.add(Math.floor((Math.random()*2200)+1));
-    elliot2.remove(Math.floor((Math.random()*1500)+1));
-  }, 1000);*/
 
   var elliot2 = new ElliotBarGraph('mycanvas2', config2);
   elliot2.add(Math.floor(2500000));
