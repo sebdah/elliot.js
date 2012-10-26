@@ -41,6 +41,7 @@ Here is a simple HTML page that illustates the use of {elliot.js}. This example 
 						'markerColor': '#333333', // Color of the marker bars
 						'barWidth': 3, // How many px should the bars be
 						'barSpacing': 1, // How many px space should be between the bars
+						'stickyScaling': false // Scale graph using data for the whole session (rather than currently displayed data)
 					}
 					});
 
@@ -112,6 +113,7 @@ Configuration to {elliot.js} is sent as a dictionary such as:
 			'markerColor': '#333333', // Color of the marker bars
 			'barWidth': 3, // How many px should the bars be
 			'barSpacing': 1, // How many px space should be between the bars
+			'stickyScaling': false // Scale graph using data for the whole session (rather than currently displayed data)
 	    }
     });
 
@@ -239,6 +241,11 @@ Configuration parameters for the 'barGraph' section.
 		<td>barSpacing</td>
 		<td>Integer</td>
 		<td>Spacing beteween the data bars</td>
+	</tr>
+	<tr>
+		<td>stickyScaling</td>
+		<td>Boolean</td>
+		<td>Scale graph using data for the whole session (rather than currently displayed data)</td>
 	</tr>
 </table>
 

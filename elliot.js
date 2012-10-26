@@ -8,6 +8,10 @@
 * WEB PAGE
 * https://github.com/sebdah/elliot.js
 * http://www.sebastiandahlgren.se
+*
+* LICENSE
+* Apache License version 2.0
+* http://www.apache.org/licenses/LICENSE-2.0.html
 */
 
 
@@ -162,7 +166,7 @@ var ElliotBarGraph = Elliot.extend({
 		if (typeof(this.config['barGraph']['markerColor']) === 'undefined') { this.config['barGraph']['markerColor'] = '#777777'; }
 		if (typeof(this.config['barGraph']['barWidth']) === 'undefined') { this.config['barGraph']['barWidth'] = 5; }
 		if (typeof(this.config['barGraph']['barSpacing']) === 'undefined') { this.config['barGraph']['barSpacing'] = 5; }
-		if (typeof(this.config['barGraph']['storeMinValue']) === 'undefined') { this.config['barGraph']['storeMinValue'] = false; }
+		if (typeof(this.config['barGraph']['stickyScaling']) === 'undefined') { this.config['barGraph']['stickyScaling'] = false; }
 
 		// Updated barData
 		this.updatedBarData = [];
@@ -259,55 +263,64 @@ var ElliotBarGraph = Elliot.extend({
 			this.first = false;
 		}
 
+		/*
+		* Calculate min and max value
+		*/
 		var minValue = NaN;
-		var maxValue = NaN;
+		var onlyZerosSoFar = true; // Used to keep track of initial zeros in array
+		for (i = 0; i < this.updatedBarData.length; i++) {
+			// Keep track of all inital zeros
+			if (onlyZerosSoFar && this.updatedBarData[i] !== 0) {
+				onlyZerosSoFar = false;
+			}
+
+			// Add the value if it is applicable
+			if (!onlyZerosSoFar) {
+				if (isNaN(minValue)) {
+					minValue = this.updatedBarData[i];
+				} else if (minValue > this.updatedBarData[i]) {
+					minValue = this.updatedBarData[i];
+				}
+			}
+		}
+
+		// Store it globally
+		if (isNaN(this.minValue) || minValue < this.minValue) {
+			this.minValue = minValue;
+		}
+
+		// Use the min value if requested
+		if (this.config['barGraph']['stickyScaling']) {
+			minValue = this.minValue;
+		}
+
+		// Max value
+		maxValue = Math.max.apply(Math, this.updatedBarData);
+
+		// Store it globally
+		if (isNaN(this.maxValue) || maxValue > this.maxValue) {
+			this.maxValue = maxValue;
+		}
+
+		// Use the min value if requested
+		if (this.config['barGraph']['stickyScaling']) {
+			maxValue = this.maxValue;
+		}
 
 		// Update the incoming data to match the graph
 		if (this.updatedBarData.length > numBars + 1) {
 			while (this.updatedBarData.length > numBars) { // Remove data until the array has a proper length
 				this.updatedBarData.splice(0, 1);
 			}
-			minValue = Math.min.apply(Math, this.updatedBarData);
-			maxValue = Math.max.apply(Math, this.updatedBarData);
 		} else if (this.updatedBarData.length <= numBars) { // Add zeros until the array has a proper length
-			minValue = Math.min.apply(Math, this.updatedBarData);
-			maxValue = Math.max.apply(Math, this.updatedBarData);
 			while (this.updatedBarData.length <= numBars) {
-				this.updatedBarData.push(0); // Add 0 to the data
+				this.updatedBarData.push(0);  // Add 0 to the data
 			}
-		} else {
-			minValue = Math.min.apply(Math, this.updatedBarData);
-			maxValue = Math.max.apply(Math, this.updatedBarData);
 		}
-		console.log('min: ' + minValue);
-		console.log('max: ' + maxValue);
 
 		/*
 		* Scaling logic
 		*/
-		if (this.config['barGraph']['storeMinValue']) {
-			console.log('hit');
-			// Use global minValue if requested
-			if (!isNaN(this.minValue) && this.minValue < minValue) {
-				minValue = this.minValue;
-			}
-			// Use global maxValue if requested
-			if (!isNaN(this.maxValue) && this.maxValue > maxValue) {
-				maxValue = this.maxValue;
-			}
-		}
-
-		// Store the smallest minValue in the global setting
-		if (minValue < this.minValue || isNaN(this.minValue)) {
-			if (minValue > 0) {
-				this.minValue = minValue;
-			}
-		}
-		// Store the largest maxValue in the global setting
-		if (maxValue > this.maxValue || isNaN(this.maxValue)) {
-			this.maxValue = maxValue;
-		}
-
 		// The 0.9 indicates that we are scaling when the data reaches 90% of the graph
 		if (this.graph.scale != Math.round((maxValue / (this.graph.height * 0.9)) + 0.6)) {
 			this.graph.scale = Math.round((maxValue / (this.graph.height * 0.9)) + 0.6);
